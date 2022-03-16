@@ -6,8 +6,10 @@ import functions.examples.cosineexample.CosineExampleBuilder;
 import integrals.IntegralAlgorithm;
 import integrals.MonteCarlo;
 import integrals.Trapeze;
+import view.IntegralEquationConsoleView;
+import view.IntegralEquationView;
 
-public class Main {
+/**public class Main {
 
     protected static ExampleBuilder functionBuilder;
     protected static Function givenExample;
@@ -35,5 +37,22 @@ public class Main {
         System.out.println("Numeryczna\t"+monteIntegral);
         System.out.println("Dokładna\t"+exactIntegral);
         System.out.println("Błąd\t\t"+error);
+    }
+}**/
+
+public class Main {
+    static IntegralAlgorithm algorithm;
+    static IntegralEquationView view;
+    protected static ExampleBuilder functionBuilder;
+    protected static Function givenExample;
+
+    public static void main(String[] args) {
+        functionBuilder = new CosineExampleBuilder();
+        givenExample = functionBuilder.build();
+        algorithm = new Trapeze();
+        view = new IntegralEquationConsoleView();
+        algorithm.setFunction(givenExample);
+        view.Init(algorithm);
+        view.View();
     }
 }

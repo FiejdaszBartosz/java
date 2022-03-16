@@ -1,12 +1,13 @@
 package view;
 
+import integrals.IntegralAlgorithm;
 import integrals.Trapeze;
 import integrals.exceptions.IntegralExceptions;
 
 import java.util.Scanner;
 
-public class IntegralEquationConsoleView {
-    private Trapeze solver;
+public class IntegralEquationConsoleView implements IntegralEquationView{
+    private IntegralAlgorithm solver;
     private Scanner sc;
 
     protected double parseWithMessageDouble(String message) {
@@ -41,7 +42,7 @@ public class IntegralEquationConsoleView {
         return res;
     }
 
-    protected void parseFactors() {
+    protected void parseFactor() {
         double a, b;
         int n;
 
@@ -62,5 +63,24 @@ public class IntegralEquationConsoleView {
         this.solver.setN(n);
     }
 
+    protected void displaySolutions(double res) {
+        System.out.println("Numeryczna\t"+res);
+    }
 
+    protected void getSolution() {
+        solver.calculateIntegral();
+        displaySolutions(solver.getIntegral());
+    }
+
+    public void Init(IntegralAlgorithm solver) {
+        this.solver = solver;
+        this.sc = new Scanner(System.in);
+    }
+
+    public void View() {
+        while (true) {
+            parseFactor();
+            getSolution();
+        }
+    }
 }
