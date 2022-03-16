@@ -5,6 +5,7 @@ import functions.examples.builder.ExampleBuilder;
 import functions.examples.cosineexample.CosineExampleBuilder;
 import integrals.IntegralAlgorithm;
 import integrals.MonteCarlo;
+import integrals.Trapeze;
 
 public class Main {
 
@@ -18,7 +19,8 @@ public class Main {
 
         functionBuilder = new CosineExampleBuilder();
         givenExample = functionBuilder.build();
-        algorithm = new MonteCarlo();
+        //algorithm = new MonteCarlo();
+        algorithm = new Trapeze();
 
         algorithm.setFunction(givenExample);
         algorithm.setA(a);
