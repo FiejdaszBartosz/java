@@ -4,8 +4,7 @@ import functions.Function;
 import functions.examples.builder.ExampleBuilder;
 import functions.examples.cosineexample.CosineExampleBuilder;
 import integrals.IntegralAlgorithm;
-import integrals.MonteCarlo;
-import integrals.Trapeze;
+import integrals.Trapezoidal;
 import view.IntegralEquationConsoleView;
 import view.IntegralEquationView;
 
@@ -49,7 +48,7 @@ public class Main {
     public static void main(String[] args) {
         functionBuilder = new CosineExampleBuilder();
         givenExample = functionBuilder.build();
-        algorithm = new Trapeze();
+        algorithm = new Trapezoidal();
         view = new IntegralEquationConsoleView();
         algorithm.setFunction(givenExample);
         view.Init(algorithm);

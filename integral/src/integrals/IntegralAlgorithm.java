@@ -29,6 +29,8 @@ public abstract class IntegralAlgorithm {
         this.function = function;
     }
 
+    public Function getFunction() { return this.function; }
+
     public abstract void calculateIntegral();
 
 
