@@ -61,7 +61,7 @@ public class IntegralEquationConsoleView implements IntegralEquationView{
                 System.err.println(e.getMessage());
                 parseVariables();
             }
-        } else if (n > 0) {
+        } else if (n <= 0) {
             try {
                 throw new InputExceptions();
             } catch (InputExceptions e) {
