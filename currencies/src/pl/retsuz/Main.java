@@ -1,13 +1,16 @@
 package pl.retsuz;
 
 import org.xml.sax.SAXException;
+import pl.retsuz.collections.CurrencyDataCollection;
 import pl.retsuz.collections.IDataCollection;
 import pl.retsuz.collections.providers.IStringCurrencyCollectionProvider;
 import pl.retsuz.collections.providers.XMLCurrencyCollectionProvider;
 import pl.retsuz.data.IRemoteDataProvider;
 import pl.retsuz.data.RemoteDataProvider;
+import pl.retsuz.exchange.Exchange;
 import pl.retsuz.exchange.IExchange;
 import pl.retsuz.view.ICurrencyView;
+import pl.retsuz.view.StandardView;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -31,9 +34,9 @@ public class Main {
         provider = new RemoteDataProvider();
         xmlProvider = new XMLCurrencyCollectionProvider();
 
-        //LastA = new CurrencyDataCollection();
-        //exchange = new Exchange();
-        //view = new StandardView();
+        LastA = new CurrencyDataCollection();
+        exchange = new Exchange();
+        view = new StandardView();
         try {
             String result = provider.acquireRemoteData("https://www.nbp.pl/kursy/xml/LastA.xml");
             xmlProvider.provide(result,LastA);
