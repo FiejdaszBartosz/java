@@ -7,12 +7,12 @@ import pl.retsuz.exchange.IExchange;
 import java.util.Scanner;
 
 public class StandardView implements ICurrencyView {
-    private IExchange exchange;
+    private IExchange exc;
     private IDataCollection dataCollection;
     private Scanner sc;
 
     public void setExchange(IExchange exchange) {
-        this.exchange = exchange;
+        this.exc = exchange;
     }
 
     public void setDataCollection(IDataCollection collection) {
@@ -20,7 +20,7 @@ public class StandardView implements ICurrencyView {
     }
 
     public void ViewAll(IDataCollection coll) {
-        dataCollection.ToString();
+        System.out.println(dataCollection.ToString());
     }
 
     public ICurrency StringToCurrency(String code) {
@@ -39,14 +39,13 @@ public class StandardView implements ICurrencyView {
         if (!label.equals(""))
             System.out.println(label);
 
-        System.out.println("\nPodaj kod waluty: ");
         line = sc.nextLine();
 
         temp = StringToCurrency(line);
 
         if (temp == null) {
             System.err.println("\nPodano nieprawidłowy kod waluty");
-            ChooseCurrency("");
+            exchange();
         }
 
         return temp;
@@ -60,7 +59,7 @@ public class StandardView implements ICurrencyView {
         fromCurrency = ChooseCurrency("\nPodaj kod waluty z której chcesz dokonaać wymiany: ");
         toCurrency = ChooseCurrency("\nPodaj kod waluty do której chcesz dokonaać wymiany: ");
 
-        System.out.println("Podaj ilość jaką chcesz wymienić: ");
+        System.out.println("\nPodaj ilość jaką chcesz wymienić: ");
         amount = Double.parseDouble(sc.nextLine());
 
         if (amount < 0.0) {
@@ -68,17 +67,17 @@ public class StandardView implements ICurrencyView {
             exchange();
         }
 
-        afterExchange = exchange.exchange(fromCurrency, toCurrency, amount);
+        afterExchange = exc.exchange(fromCurrency, toCurrency, amount);
 
-        System.out.println("\nPo wymianie: " + afterExchange);
+        System.out.println("\nPo wymianie: " + afterExchange + " " + toCurrency.getCode() + "\n");
 
     }
 
     public void menu() {
         String choice;
 
-        System.out.println("Pokaż waluty      ->    1\n");
-        System.out.println("Dokonaj wymiany   ->    2\n");
+        System.out.println("Pokaż waluty      ->    1");
+        System.out.println("Dokonaj wymiany   ->    2");
         System.out.println("Wybierz numer operacje: ");
         choice = sc.nextLine();
 
@@ -90,6 +89,8 @@ public class StandardView implements ICurrencyView {
             System.err.println("!!! Nieprawidłowy wybór !!!\n");
             menu();
         }
+
+        menu();
     }
 
     public StandardView() {
