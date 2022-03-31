@@ -5,9 +5,10 @@ import vector.Vector;
 
 public class Triangle implements ITriangle {
     Vector mA, mB, mC;
+    double mArea, mPerimeter;
 
     /**
-     * Creating Triangle from three points
+     * Creates Triangle from three points, calculates area and perimeter
      *
      * @param a First point
      * @param b Second point
@@ -21,27 +22,42 @@ public class Triangle implements ITriangle {
         tempB = new Vector(b, c);
         tempC = new Vector(c, a);
 
-        if (!checkTriangle(tempA, tempB, tempC))
+        if (checkTriangle(tempA, tempB, tempC)) {
+            // Assign temporary point
+            mA = tempA;
+            mB = tempB;
+            mC = tempC;
+            calculatePerimeter();
+            calculateArea();
+        } else
             System.out.println("Nie mozna utworzyc trojkata z podanych punktow");
-
-        // Assign temporary point
-        mA = tempA;
-        mB = tempB;
-        mC = tempC;
     }
 
     /**
-     * Checking if it is possible to create a triangle from the given points
+     * Checks if it is possible to create a triangle from the given points
+     *
      * @param a First point
      * @param b Second point
      * @param c Third point
      * @return True/False if it is possible or not
      */
     @Override
-    public boolean checkTriangle(Vector a, Vector b, Vector c){
+    public boolean checkTriangle(Vector a, Vector b, Vector c) {
         return (a.getDistance() + b.getDistance() > c.getDistance())
                 || (a.getDistance() + c.getDistance() > b.getDistance())
                 || (b.getDistance() + c.getDistance() > a.getDistance());
     }
 
+
+    @Override
+    public void calculateArea() {
+        // Using Heron's formula
+        mArea = Math.sqrt(mPerimeter * (mPerimeter - mA.getDistance()) * (mPerimeter - mB.getDistance())
+                * (mPerimeter - mC.getDistance()));
+    }
+
+    @Override
+    public void calculatePerimeter() {
+        mPerimeter = mA.getDistance() + mB.getDistance() + mC.getDistance();
+    }
 }
