@@ -27,4 +27,14 @@ public class Point implements IPoint {
     public void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public void changeCoordinates(double newX, double newY) {
+        if(this.x != newX && this.y != newY) {
+            this.x = newX;
+            this.y = newY;
+        }
+        else
+            System.out.println("Podano ten sam punkt");
+    }
 }
