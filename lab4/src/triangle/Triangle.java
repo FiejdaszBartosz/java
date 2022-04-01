@@ -29,12 +29,12 @@ public class Triangle implements ITriangle {
 
         if (checkTriangle(tempA, tempB, tempC)) {
             // Assign temporary point
-            mAB = tempA;
-            mBC = tempB;
-            mCA = tempC;
-            mA = a;
-            mB = b;
-            mC = c;
+            this.mAB = new Vector(tempA);
+            this.mBC = new Vector(tempB);
+            this.mCA = new Vector(tempC);
+            this.mA = new Point(a);
+            this.mB = new Point(b);
+            this.mC = new Point(c);
             calculatePerimeter();
             calculateArea();
         } else
@@ -72,34 +72,70 @@ public class Triangle implements ITriangle {
 
     @Override
     public void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound {
-        if (mA.checkPoint(previousX, previousY)) {
-            try {
-                mA.changeCoordinates(newX, newY);
-            } catch (SamePointsException e) {
-                System.err.println(e.getMessage());
-            }
-
-            calculatePerimeter();
-            calculateArea();
-        } else if (mB.checkPoint(previousX, previousY)) {
-            try {
-                mB.changeCoordinates(newX, newY);
-            } catch (SamePointsException e) {
-                System.err.println(e.getMessage());
-            }
-
-            calculatePerimeter();
-            calculateArea();
-        } else if (mC.checkPoint(previousX, previousY)) {
-            try {
-                mC.changeCoordinates(newX, newY);
-            } catch (SamePointsException e) {
-                System.err.println(e.getMessage());
-            }
-
-            calculatePerimeter();
-            calculateArea();
-        } else
+        if (mA.checkPoint(previousX, previousY))
+            changeA(previousX, previousY, newX, newY);
+        else if (mB.checkPoint(previousX, previousY))
+            changeB(previousX, previousY, newX, newY);
+        else if (mC.checkPoint(previousX, previousY))
+            changeC(previousX, previousY, newX, newY);
+        else
             throw new TriangleVerticeNotFound();
+    }
+
+    @Override
+    public void changeA(double previousX, double previousY, double newX, double newY) {
+        try {
+            mA.changeCoordinates(newX, newY);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            mAB.changePoint(previousX, previousY, newX, newY);
+            mCA.changePoint(previousX, previousY, newX, newY);
+        } catch (PointNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+
+        calculatePerimeter();
+        calculateArea();
+    }
+
+    @Override
+    public void changeB(double previousX, double previousY, double newX, double newY) {
+        try {
+            mB.changeCoordinates(newX, newY);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            mAB.changePoint(previousX, previousY, newX, newY);
+            mBC.changePoint(previousX, previousY, newX, newY);
+        } catch (PointNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+
+        calculatePerimeter();
+        calculateArea();
+    }
+
+    @Override
+    public void changeC(double previousX, double previousY, double newX, double newY) {
+        try {
+            mC.changeCoordinates(newX, newY);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            mBC.changePoint(previousX, previousY, newX, newY);
+            mCA.changePoint(previousX, previousY, newX, newY);
+        } catch (PointNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+
+        calculatePerimeter();
+        calculateArea();
     }
 }

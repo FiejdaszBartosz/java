@@ -3,6 +3,7 @@ package point;
 import exceptions.SamePointsException;
 
 public interface IPoint {
+    void copy(Point point);
     double getX();
     double getY();
     void setX(double x);

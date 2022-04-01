@@ -5,6 +5,7 @@ import exceptions.SamePointsException;
 import point.Point;
 
 public interface IVector {
+    void copy(Vector vector);
     void setPoints(Point a, Point b);
     void calculateDistance();
     double getDistance();

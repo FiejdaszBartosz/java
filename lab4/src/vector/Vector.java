@@ -5,8 +5,8 @@ import exceptions.SamePointsException;
 import point.Point;
 
 public class Vector implements IVector {
-    double distance;
-    Point mA, mB;
+    private double distance;
+    private Point mA, mB;
 
     public Vector(Point a, Point b) {
         boolean checkPoints = false;
@@ -17,22 +17,27 @@ public class Vector implements IVector {
         }
 
         if (checkPoints) {
-            this.mA = a;
-            this.mB = b;
+            this.mA = new Point(a);
+            this.mB = new Point(b);
             calculateDistance();
         }
     }
 
-    public Vector(Vector vector) {
+    @Override
+    public void copy(Vector vector) {
         this.mA = vector.mA;
         this.mB = vector.mB;
         this.distance = vector.distance;
     }
 
+    public Vector(Vector vector) {
+        this.copy(vector);
+    }
+
     @Override
     public void setPoints(Point a, Point b) {
-        this.mA = a;
-        this.mB = b;
+        this.mA.copy(a);
+        this.mB.copy(b);
         calculateDistance();
     }
 

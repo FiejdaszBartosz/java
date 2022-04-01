@@ -3,7 +3,7 @@ package point;
 import exceptions.SamePointsException;
 
 public class Point implements IPoint {
-    double mX, mY;
+    private double mX, mY;
 
     public Point() {
         this.mX = 0;
@@ -13,6 +13,16 @@ public class Point implements IPoint {
     public Point(double x, double y) {
         this.mX = x;
         this.mY = y;
+    }
+
+    public Point(Point point) {
+        this.copy(point);
+    }
+
+    @Override
+    public void copy(Point point) {
+        this.mX = point.mX;
+        this.mY = point.mY;
     }
 
     @Override
