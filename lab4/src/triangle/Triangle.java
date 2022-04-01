@@ -1,5 +1,6 @@
 package triangle;
 
+import exceptions.CreateTriangleException;
 import point.Point;
 import vector.Vector;
 
@@ -14,7 +15,7 @@ public class Triangle implements ITriangle {
      * @param b Second point
      * @param c Third Point
      */
-    public Triangle(Point a, Point b, Point c) {
+    public Triangle(Point a, Point b, Point c) throws CreateTriangleException {
         Vector tempA, tempB, tempC;
 
         // Creating the sides of a triangle
@@ -30,7 +31,7 @@ public class Triangle implements ITriangle {
             calculatePerimeter();
             calculateArea();
         } else
-            System.out.println("Nie mozna utworzyc trojkata z podanych punktow");
+            throw new CreateTriangleException();
     }
 
     /**
@@ -43,17 +44,18 @@ public class Triangle implements ITriangle {
      */
     @Override
     public boolean checkTriangle(Vector a, Vector b, Vector c) {
-        return (a.getDistance() + b.getDistance() > c.getDistance())
-                || (a.getDistance() + c.getDistance() > b.getDistance())
-                || (b.getDistance() + c.getDistance() > a.getDistance());
+        return (a.getDistance() + b.getDistance() < c.getDistance())
+                || (a.getDistance() + c.getDistance() < b.getDistance())
+                || (b.getDistance() + c.getDistance() < a.getDistance());
     }
 
 
     @Override
     public void calculateArea() {
         // Using Heron's formula
-        mArea = Math.sqrt(mPerimeter * (mPerimeter - mA.getDistance()) * (mPerimeter - mB.getDistance())
-                * (mPerimeter - mC.getDistance()));
+        double halfPerimeter = mPerimeter / 2.0;
+        mArea = Math.sqrt(halfPerimeter * (halfPerimeter - mA.getDistance()) * (halfPerimeter - mB.getDistance())
+                * (halfPerimeter - mC.getDistance()));
     }
 
     @Override

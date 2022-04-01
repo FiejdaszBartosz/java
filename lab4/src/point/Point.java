@@ -1,40 +1,47 @@
 package point;
 
+import exceptions.SamePointsException;
+
 public class Point implements IPoint {
-    double x, y;
+    double mX, mY;
 
     public Point() {
-        this.x = 0;
-        this.y = 0;
+        this.mX = 0;
+        this.mY = 0;
+    }
+
+    public Point(double x, double y) {
+        this.mX = x;
+        this.mY = y;
     }
 
     @Override
     public double getX() {
-        return this.x;
+        return this.mX;
     }
 
     @Override
     public double getY() {
-        return this.y;
+        return this.mY;
     }
 
     @Override
     public void setX(double x) {
-        this.x = x;
+        this.mX = x;
     }
 
     @Override
     public void setY(double y) {
-        this.y = y;
+        this.mY = y;
     }
 
     @Override
-    public void changeCoordinates(double newX, double newY) {
-        if(this.x != newX && this.y != newY) {
-            this.x = newX;
-            this.y = newY;
+    public void changeCoordinates(double newX, double newY) throws SamePointsException{
+        if(this.mX == newX && this.mY == newY)
+            throw new SamePointsException();
+        else {
+            this.mX = newX;
+            this.mY = newY;
         }
-        else
-            System.out.println("Podano ten sam punkt");
     }
 }

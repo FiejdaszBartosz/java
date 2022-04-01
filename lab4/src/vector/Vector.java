@@ -1,5 +1,8 @@
 package vector;
 
+import exceptions.ExceptionMessage;
+import exceptions.PointNotFoundException;
+import exceptions.SamePointsException;
 import point.Point;
 
 public class Vector implements IVector {
@@ -7,9 +10,14 @@ public class Vector implements IVector {
     Point mA, mB;
 
     public Vector(Point a, Point b) {
-        if (a.getX() == b.getX() && a.getY() == b.getY())
-            System.out.println("Te same punkty");
-        else {
+        boolean checkPoints = false;
+        try {
+            checkPoints = checkCoordinates(a, b);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (checkPoints) {
             this.mA = a;
             this.mB = b;
             calculateDistance();
@@ -46,13 +54,21 @@ public class Vector implements IVector {
 
     @Override
     public void changePointA(double newX, double newY) {
-        this.mA.changeCoordinates(newX, newY);
+        try {
+            this.mA.changeCoordinates(newX, newY);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
         calculateDistance();
     }
 
     @Override
     public void changePointB(double newX, double newY) {
-        this.mB.changeCoordinates(newX, newY);
+        try {
+            this.mB.changeCoordinates(newX, newY);
+        } catch (SamePointsException e) {
+            System.err.println(e.getMessage());
+        }
         calculateDistance();
     }
 
@@ -74,7 +90,14 @@ public class Vector implements IVector {
     }
 
     @Override
-    public void changePoint(double previousX, double previousY, double newX, double newY) {
+    public boolean checkCoordinates(Point a, Point b) throws SamePointsException {
+        if (a.getX() == b.getX() && a.getY() == b.getY())
+            throw new SamePointsException();
+        return true;
+    }
+
+    @Override
+    public void changePoint(double previousX, double previousY, double newX, double newY) throws PointNotFoundException {
         int checkPoint;
 
         checkPoint = findPoint(previousX, previousY);
@@ -84,6 +107,6 @@ public class Vector implements IVector {
         else if (checkPoint == 1)
             changePointB(newX, newY);
         else
-            System.out.println("Nie znaleziono");
+            throw new PointNotFoundException();
     }
 }

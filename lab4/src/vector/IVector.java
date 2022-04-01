@@ -1,6 +1,7 @@
 package vector;
 
-import point.IPoint;
+import exceptions.PointNotFoundException;
+import exceptions.SamePointsException;
 import point.Point;
 
 public interface IVector {
@@ -11,5 +12,6 @@ public interface IVector {
     void changePointA(double newX, double newY);
     void changePointB(double newX, double newY);
     int findPoint(double x, double y);
-    void changePoint(double previousX, double previousY, double newX, double newY);
+    boolean checkCoordinates(Point a, Point b) throws SamePointsException;
+    void changePoint(double previousX, double previousY, double newX, double newY) throws PointNotFoundException;
 }
