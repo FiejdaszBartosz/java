@@ -8,4 +8,5 @@ public interface IPoint {
     void setX(double x);
     void setY(double y);
     void changeCoordinates(double newX, double newY) throws SamePointsException;
+    boolean checkPoint(double x, double y);
 }

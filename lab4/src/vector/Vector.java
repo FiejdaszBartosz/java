@@ -1,6 +1,5 @@
 package vector;
 
-import exceptions.ExceptionMessage;
 import exceptions.PointNotFoundException;
 import exceptions.SamePointsException;
 import point.Point;
@@ -47,6 +46,9 @@ public class Vector implements IVector {
         return distance;
     }
 
+    /**
+     * Calculates distance between point a and b
+     */
     @Override
     public void calculateDistance() {
         distance = Math.sqrt(Math.pow((mB.getX() - mA.getX()), 2) + Math.pow((mB.getY() - mA.getY()), 2));
@@ -89,6 +91,14 @@ public class Vector implements IVector {
             return -1;
     }
 
+    /**
+     * Checks if the given points are not the same
+     *
+     * @param a First point
+     * @param b Second point
+     * @return true if it is possible
+     * @throws SamePointsException Given points were the same
+     */
     @Override
     public boolean checkCoordinates(Point a, Point b) throws SamePointsException {
         if (a.getX() == b.getX() && a.getY() == b.getY())
@@ -96,16 +106,30 @@ public class Vector implements IVector {
         return true;
     }
 
+    /**
+     * Changes points in vector
+     *
+     * @param previousX Previous x coordinate
+     * @param previousY Previous y coordinate
+     * @param newX x coordinate after change
+     * @param newY y coordinate after change
+     * @throws PointNotFoundException Given point was not found in this vector
+     */
     @Override
     public void changePoint(double previousX, double previousY, double newX, double newY) throws PointNotFoundException {
         int checkPoint;
 
+        // Checks if in this vector is given point
         checkPoint = findPoint(previousX, previousY);
 
-        if (checkPoint == 0)
+        if (checkPoint == 0) {
             changePointA(newX, newY);
-        else if (checkPoint == 1)
+            calculateDistance();
+        }
+        else if (checkPoint == 1) {
             changePointB(newX, newY);
+            calculateDistance();
+        }
         else
             throw new PointNotFoundException();
     }

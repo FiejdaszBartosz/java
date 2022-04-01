@@ -44,4 +44,7 @@ public class Point implements IPoint {
             this.mY = newY;
         }
     }
+
+    @Override
+    public boolean checkPoint(double x, double y) { return mX == x && mY == y; }
 }
