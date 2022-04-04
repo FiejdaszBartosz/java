@@ -14,4 +14,5 @@ public interface IView {
     void changePoint();
     void printTriangleArray();
     void printQuadrangleArray();
+    void sortArray();
 }

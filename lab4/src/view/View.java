@@ -7,6 +7,7 @@ import exceptions.EmptyArrayException;
 import point.Point;
 import quadrangle.Quadrangle;
 import triangle.Triangle;
+import sort.Sort;
 
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class View implements IView {
     private Scanner sc;
     private Triangle[] mTrianglesArray;
     private Quadrangle[] mQuadranglesArray;
+    private Sort sort;
     int mTriangleArraySize, mQuadranglesArraySize;
 
     /**
@@ -302,6 +304,26 @@ public class View implements IView {
             System.out.println(count + ") ");
             i.printQuadrangle();
             count += 1;
+        }
+    }
+
+    @Override
+    public void sortArray() {
+        int choice;
+
+        System.out.println("""
+                Wybierz którą tablicę chcesz posortować:
+                0 - trójkaty
+                1 - czworoboki""");
+        choice = parseWithMessageInt("");
+
+        if (choice == 0)
+            sort.sortTriangleArray(mTrianglesArray);
+        else if (choice == 1) {
+            sort.sortQuadrangleArray(mQuadranglesArray);
+        } else {
+            System.err.println("Nieprawidłowy wybór");
+            sortArray();
         }
     }
 }
