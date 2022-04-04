@@ -103,6 +103,15 @@ public class Quadrangle implements IQuadrangle {
         }
     }
 
+    @Override
+    public void printQuadrangle() {
+        String msg = "";
+        int count = 0;
 
+        for(Point i : mPoints) {
+            msg += count + " - (" + i.getX() + "," + i.getY() + ")\t";
+            count += 1;
+        }
+    }
 }
 

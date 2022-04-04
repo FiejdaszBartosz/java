@@ -14,4 +14,5 @@ public interface ITriangle {
     double getPerimeter();
     void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound;
     double calculateHeight(Point x) throws PointNotFoundException;
+    void printTriangle();
 }

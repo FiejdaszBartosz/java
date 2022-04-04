@@ -1,5 +1,6 @@
 package view;
 
+import exceptions.EmptyArrayException;
 import point.Point;
 import quadrangle.Quadrangle;
 import triangle.Triangle;

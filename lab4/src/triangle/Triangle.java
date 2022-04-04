@@ -134,4 +134,15 @@ public class Triangle implements ITriangle {
         }
         throw new PointNotFoundException();
     }
+
+    @Override
+    public void printTriangle() {
+        String msg = "";
+        int count = 0;
+
+        for(Point i : mPoints) {
+            msg += count + " - (" + i.getX() + "," + i.getY() + ")\t";
+            count += 1;
+        }
+    }
 }

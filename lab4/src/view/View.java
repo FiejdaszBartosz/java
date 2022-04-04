@@ -1,6 +1,9 @@
 package view;
 
 import exceptions.CreateTriangleException;
+import exceptions.QuadrangleVerticeNotFound;
+import exceptions.TriangleVerticeNotFound;
+import exceptions.EmptyArrayException;
 import point.Point;
 import quadrangle.Quadrangle;
 import triangle.Triangle;
@@ -13,6 +16,12 @@ public class View implements IView {
     private Quadrangle[] mQuadranglesArray;
     int mTriangleArraySize, mQuadranglesArraySize;
 
+    /**
+     * default constructor arrays from parameters are needed for sorting
+     *
+     * @param arrTraingle array of triangles
+     * @param arrQuadrangle array of quadrangle
+     */
     public View(Triangle[] arrTraingle, Quadrangle[] arrQuadrangle) {
         this.sc = new Scanner(System.in);
         this.mTrianglesArray = arrTraingle;
@@ -53,6 +62,11 @@ public class View implements IView {
         return res;
     }
 
+    /**
+     * Adds given triangle to mTrianglesArray
+     *
+     * @param triangle given triangle
+     */
     @Override
     public void addTriangle(Triangle triangle) {
         int i;
@@ -71,6 +85,11 @@ public class View implements IView {
         }
     }
 
+    /**
+     * Adds given triangle to mQuadrangleArray
+     *
+     * @param quadrangle given quadrangle
+     */
     @Override
     public void addQuadrangle(Quadrangle quadrangle) {
         int i;
@@ -89,6 +108,11 @@ public class View implements IView {
         }
     }
 
+    /**
+     * Creates point by asking the user for coordinates
+     *
+     * @return created point
+     */
     @Override
     public Point createPoint() {
         Point tempPoint;
@@ -101,6 +125,9 @@ public class View implements IView {
         return tempPoint;
     }
 
+    /**
+     * Creates Triangle by asking the user for necessary parameters
+     */
     @Override
     public void createTriangle() {
         Point a, b, c;
@@ -121,6 +148,9 @@ public class View implements IView {
         }
     }
 
+    /**
+     * Creates Quadrangle by asking the user for necessary parameters
+     */
     @Override
     public void createQuadrangle() {
         Point a, b, c, d;
@@ -139,9 +169,84 @@ public class View implements IView {
         addQuadrangle(tempQuadrangle);
     }
 
+    /**
+     * Asks the user for a triangle and points in which he wants to make changes
+     *
+     * @throws EmptyArrayException if array is empty
+     */
+    private void changePointTriangle() throws EmptyArrayException {
+        Point previous, current;
+        int position;
+
+        if (mTriangleArraySize == 0)
+            throw new EmptyArrayException();
+
+        printTriangleArray();
+        position = parseWithMessageInt("Wybierz w którym chcesz dokonać zmian");
+
+        if (position > mTriangleArraySize || position < 0) {
+            System.err.println("Arr size error");
+            changePointTriangle();
+        } else {
+            System.out.println("Podaj stary punkt :");
+            previous = createPoint();
+            System.out.println("Podaj nowy punkt :");
+            current = createPoint();
+
+            try {
+                mTrianglesArray[position].changeTrianglePoint(
+                        previous.getX(),
+                        previous.getY(),
+                        current.getX(),
+                        current.getY());
+            } catch (TriangleVerticeNotFound e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Asks the user for a quadrangle and points in which he wants to make changes
+     *
+     * @throws EmptyArrayException if array is empty
+     */
+    private void changePointQuadrangle() throws EmptyArrayException {
+        Point previous, current;
+        int position;
+
+        if (mQuadranglesArraySize == 0)
+            throw new EmptyArrayException();
+
+        printQuadrangleArray();
+        position = parseWithMessageInt("Wybierz w którym chcesz dokonać zmian");
+
+        if (position > mQuadranglesArraySize || position < 0) {
+            System.err.println("Arr size error");
+            changePointQuadrangle();
+        }
+        else {
+            System.out.println("Podaj stary punkt :");
+            previous = createPoint();
+            System.out.println("Podaj nowy punkt :");
+            current = createPoint();
+
+            try {
+                mQuadranglesArray[position].changeQuadranglePoint(
+                        previous.getX(),
+                        previous.getY(),
+                        current.getX(),
+                        current.getY());
+            } catch (QuadrangleVerticeNotFound e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Changes point. User have to choose whether he wants to make changes to a triangle or a quadrangle
+     */
     @Override
     public void changePoint() {
-        Point previous, current;
         int choice;
 
         System.out.println("""
@@ -150,25 +255,53 @@ public class View implements IView {
                 1 - czworobok""");
         choice = parseWithMessageInt("");
 
-        if (choice == 0) {
-
-        } else if (choice == 1) {
-
+        if (choice == 0)
+            try {
+                changePointTriangle();
+            } catch (EmptyArrayException e) {
+                System.err.println(e.getMessage());
+            }
+        else if (choice == 1) {
+            try {
+                changePointQuadrangle();
+            } catch (EmptyArrayException e) {
+                System.err.println(e.getMessage());
+            }
         } else {
             System.err.println("Nieprawidłowy wybór");
             changePoint();
         }
-
-        System.out.println("Podaj stary punkt :");
-        previous = createPoint();
-        System.out.println("Podaj nowy punkt :");
-        current = createPoint();
-
-
     }
 
+    /**
+     * Prints triangle array
+     */
     @Override
     public void printTriangleArray() {
+        int count = 0;
 
+        System.out.println("Dostępne trójkąty:");
+
+        for (Triangle i : mTrianglesArray) {
+            System.out.println(count + ") ");
+            i.printTriangle();
+            count += 1;
+        }
+    }
+
+    /**
+     * Print quadrangle array
+     */
+    @Override
+    public void printQuadrangleArray() {
+        int count = 0;
+
+        System.out.println("Dostępne czworokąty:");
+
+        for (Quadrangle i : mQuadranglesArray) {
+            System.out.println(count + ") ");
+            i.printQuadrangle();
+            count += 1;
+        }
     }
 }
