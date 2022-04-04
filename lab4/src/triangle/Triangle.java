@@ -31,6 +31,16 @@ public class Triangle implements ITriangle {
             throw new CreateTriangleException();
     }
 
+    public Triangle(Triangle triangle) { this.copy(triangle); }
+
+    @Override
+    public void copy(Triangle triangle) {
+        this.mPoints = triangle.mPoints;
+        this.mVectors = triangle.mVectors;
+        this.mArea = triangle.mArea;
+        this.mPerimeter = triangle.mPerimeter;
+    }
+
     /**
      * Checks if it is possible to create a triangle from the given points
      *

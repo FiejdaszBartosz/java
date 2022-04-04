@@ -34,6 +34,16 @@ public class Quadrangle implements IQuadrangle {
         calculateArea();
     }
 
+    public Quadrangle(Quadrangle quadrangle) { this.copy(quadrangle); }
+
+    @Override
+    public void copy(Quadrangle quadrangle) {
+        this.mPoints = quadrangle.mPoints;
+        this.mVectors = quadrangle.mVectors;
+        this.mArea = quadrangle.mArea;
+        this.mPerimeter = quadrangle.mPerimeter;
+    }
+
     /**
      * Calculates quadrangle's perimeter
      */
@@ -92,5 +102,7 @@ public class Quadrangle implements IQuadrangle {
             calculateArea();
         }
     }
+
+
 }
 

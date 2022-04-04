@@ -6,6 +6,7 @@ import point.Point;
 import vector.Vector;
 
 public interface ITriangle {
+    void copy(Triangle triangle);
     boolean checkTriangle(Vector a, Vector b, Vector c);
     void calculateArea();
     void calculatePerimeter();
