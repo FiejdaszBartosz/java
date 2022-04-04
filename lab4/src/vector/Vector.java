@@ -138,4 +138,21 @@ public class Vector implements IVector {
         else
             throw new PointNotFoundException();
     }
+
+    @Override
+    public void changePointNoException(double previousX, double previousY, double newX, double newY) {
+        int checkPoint;
+
+        // Checks if in this vector is given point
+        checkPoint = findPoint(previousX, previousY);
+
+        if (checkPoint == 0) {
+            changePointA(newX, newY);
+            calculateDistance();
+        }
+        else if (checkPoint == 1) {
+            changePointB(newX, newY);
+            calculateDistance();
+        }
+    }
 }

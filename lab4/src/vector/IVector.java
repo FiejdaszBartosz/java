@@ -15,4 +15,5 @@ public interface IVector {
     int findPoint(double x, double y);
     boolean checkCoordinates(Point a, Point b) throws SamePointsException;
     void changePoint(double previousX, double previousY, double newX, double newY) throws PointNotFoundException;
+    void changePointNoException(double previousX, double previousY, double newX, double newY);
 }

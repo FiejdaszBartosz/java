@@ -71,6 +71,16 @@ public class Triangle implements ITriangle {
     }
 
     @Override
+    public double getArea() {
+        return mArea;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return mPerimeter;
+    }
+
+    @Override
     public void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound {
         if (mA.checkPoint(previousX, previousY))
             changeA(previousX, previousY, newX, newY);
