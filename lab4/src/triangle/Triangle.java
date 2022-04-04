@@ -46,10 +46,11 @@ public class Triangle implements ITriangle {
                 || (b.getDistance() + c.getDistance() > a.getDistance());
     }
 
-
+    /**
+     * Calculates triangle's area by using Heron's formula
+     */
     @Override
     public void calculateArea() {
-        // Using Heron's formula
         double halfPerimeter = mPerimeter / 2.0;
         mArea = Math.sqrt(halfPerimeter
                 * (halfPerimeter - mVectors[0].getDistance())
@@ -57,6 +58,9 @@ public class Triangle implements ITriangle {
                 * (halfPerimeter - mVectors[2].getDistance()));
     }
 
+    /**
+     * Calculates triangle's perimeter
+     */
     @Override
     public void calculatePerimeter() {
         mPerimeter = mVectors[0].getDistance()
@@ -70,6 +74,15 @@ public class Triangle implements ITriangle {
     @Override
     public double getPerimeter() { return mPerimeter; }
 
+    /**
+     * Changes given triangle's vertex
+     *
+     * @param previousX previous x coordinate
+     * @param previousY previous y coordinate
+     * @param newX new x coordinate
+     * @param newY new y coordinate
+     * @throws TriangleVerticeNotFound if not found the given vertex
+     */
     @Override
     public void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound {
         boolean isChanged = false;
@@ -95,14 +108,20 @@ public class Triangle implements ITriangle {
 
     }
 
+    /**
+     * Calculates height from a given point
+     *
+     * @param vertex the vertex from which the height was taken
+     * @return the length of the height
+     * @throws PointNotFoundException if not found the given vertex
+     */
     @Override
-    public double calculateHeight(Point x) throws PointNotFoundException {
+    public double calculateHeight(Point vertex) throws PointNotFoundException {
         for (Vector i : mVectors) {
-            if (i.findPoint(x.getX(), x.getY()) == -1) {
+            if (i.findPoint(vertex.getX(), vertex.getY()) == -1) {
                 return 2 * mArea / i.getDistance();
             }
         }
-        // If not found
         throw new PointNotFoundException();
     }
 }

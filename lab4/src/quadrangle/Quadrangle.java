@@ -3,6 +3,7 @@ package quadrangle;
 import exceptions.CreateTriangleException;
 import exceptions.SamePointsException;
 import exceptions.QuadrangleVerticeNotFound;
+import exceptions.TriangleVerticeNotFound;
 import point.Point;
 import triangle.Triangle;
 import vector.Vector;
@@ -12,6 +13,13 @@ public class Quadrangle implements IQuadrangle {
     private Vector[] mVectors;
     double mPerimeter, mArea;
 
+    /**
+     * Creates Quadrangle from three points, calculates area and perimeter
+     *
+     * @param a First point
+     * @param b Second point
+     * @param c Third Point
+     */
     public Quadrangle(Point a, Point b, Point c, Point d) {
         mPoints = new Point[]{a, b, c, d};
 
@@ -26,6 +34,9 @@ public class Quadrangle implements IQuadrangle {
         calculateArea();
     }
 
+    /**
+     * Calculates quadrangle's perimeter
+     */
     @Override
     public void calculatePerimeter() {
         mPerimeter = 0;
@@ -33,6 +44,9 @@ public class Quadrangle implements IQuadrangle {
             mPerimeter += i.getDistance();
     }
 
+    /**
+     * Calculates quadrangle's area
+     */
     @Override
     public void calculateArea() {
         Triangle tempTriangleABC, tempTriangleCDA;
@@ -46,6 +60,15 @@ public class Quadrangle implements IQuadrangle {
         }
     }
 
+    /**
+     * Changes given quadrangle's vertex
+     *
+     * @param previousX previous x coordinate
+     * @param previousY previous y coordinate
+     * @param newX new x coordinate
+     * @param newY new y coordinate
+     * @throws QuadrangleVerticeNotFound if not found the given vertex
+     */
     @Override
     public void changeQuadranglePoint(double previousX, double previousY, double newX, double newY) throws QuadrangleVerticeNotFound {
         boolean isChanged = false;
