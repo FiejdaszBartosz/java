@@ -11,7 +11,4 @@ public interface ITriangle {
     double getArea();
     double getPerimeter();
     void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound;
-    void changeA(double previousX, double previousY, double newX, double newY);
-    void changeB(double previousX, double previousY, double newX, double newY);
-    void changeC(double previousX, double previousY, double newX, double newY);
 }

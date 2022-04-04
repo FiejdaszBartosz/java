@@ -1,15 +1,12 @@
 package triangle;
 
-import exceptions.CreateTriangleException;
-import exceptions.PointNotFoundException;
-import exceptions.SamePointsException;
-import exceptions.TriangleVerticeNotFound;
+import exceptions.*;
 import point.Point;
 import vector.Vector;
 
 public class Triangle implements ITriangle {
-    Vector mAB, mBC, mCA;
-    Point mA, mB, mC;
+    private Point[] mPoints;
+    private Vector[] mVectors;
     double mArea, mPerimeter;
 
     /**
@@ -20,21 +17,14 @@ public class Triangle implements ITriangle {
      * @param c Third Point
      */
     public Triangle(Point a, Point b, Point c) throws CreateTriangleException {
-        Vector tempA, tempB, tempC;
-
-        // Creating the sides of a triangle
-        tempA = new Vector(a, b);
-        tempB = new Vector(b, c);
-        tempC = new Vector(c, a);
+        Vector tempA = new Vector(a, b);
+        Vector tempB = new Vector(b, c);
+        Vector tempC = new Vector(c, a);
 
         if (checkTriangle(tempA, tempB, tempC)) {
-            // Assign temporary point
-            this.mAB = new Vector(tempA);
-            this.mBC = new Vector(tempB);
-            this.mCA = new Vector(tempC);
-            this.mA = new Point(a);
-            this.mB = new Point(b);
-            this.mC = new Point(c);
+            mPoints = new Point[]{a, b, c};
+            mVectors = new Vector[]{tempA, tempB, tempC};
+
             calculatePerimeter();
             calculateArea();
         } else
@@ -61,91 +51,46 @@ public class Triangle implements ITriangle {
     public void calculateArea() {
         // Using Heron's formula
         double halfPerimeter = mPerimeter / 2.0;
-        mArea = Math.sqrt(halfPerimeter * (halfPerimeter - mAB.getDistance()) * (halfPerimeter - mBC.getDistance())
-                * (halfPerimeter - mCA.getDistance()));
+        mArea = Math.sqrt(halfPerimeter
+                * (halfPerimeter - mVectors[0].getDistance())
+                * (halfPerimeter - mVectors[1].getDistance())
+                * (halfPerimeter - mVectors[2].getDistance()));
     }
 
     @Override
     public void calculatePerimeter() {
-        mPerimeter = mAB.getDistance() + mBC.getDistance() + mCA.getDistance();
+        mPerimeter = mVectors[0].getDistance()
+                + mVectors[1].getDistance()
+                + mVectors[2].getDistance();
     }
 
     @Override
-    public double getArea() {
-        return mArea;
-    }
+    public double getArea() { return mArea; }
 
     @Override
-    public double getPerimeter() {
-        return mPerimeter;
-    }
+    public double getPerimeter() { return mPerimeter; }
 
     @Override
     public void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound {
-        if (mA.checkPoint(previousX, previousY))
-            changeA(previousX, previousY, newX, newY);
-        else if (mB.checkPoint(previousX, previousY))
-            changeB(previousX, previousY, newX, newY);
-        else if (mC.checkPoint(previousX, previousY))
-            changeC(previousX, previousY, newX, newY);
-        else
+        boolean isChanged = false;
+        for (Point i : mPoints) {
+            if (i.getX() == previousX && i.getY() == previousY) {
+                try {
+                    i.changeCoordinates(newX, newY);
+                    for (Vector j : mVectors) {
+                        j.changePointNoException(previousX, previousY, newX, newY);
+                    }
+                } catch (SamePointsException e) {
+                    System.err.println(e.getMessage());
+                }
+                isChanged = true;
+            }
+        }
+        if (!isChanged)
             throw new TriangleVerticeNotFound();
-    }
-
-    @Override
-    public void changeA(double previousX, double previousY, double newX, double newY) {
-        try {
-            mA.changeCoordinates(newX, newY);
-        } catch (SamePointsException e) {
-            System.err.println(e.getMessage());
+        else {
+            calculatePerimeter();
+            calculateArea();
         }
-
-        try {
-            mAB.changePoint(previousX, previousY, newX, newY);
-            mCA.changePoint(previousX, previousY, newX, newY);
-        } catch (PointNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
-
-        calculatePerimeter();
-        calculateArea();
-    }
-
-    @Override
-    public void changeB(double previousX, double previousY, double newX, double newY) {
-        try {
-            mB.changeCoordinates(newX, newY);
-        } catch (SamePointsException e) {
-            System.err.println(e.getMessage());
-        }
-
-        try {
-            mAB.changePoint(previousX, previousY, newX, newY);
-            mBC.changePoint(previousX, previousY, newX, newY);
-        } catch (PointNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
-
-        calculatePerimeter();
-        calculateArea();
-    }
-
-    @Override
-    public void changeC(double previousX, double previousY, double newX, double newY) {
-        try {
-            mC.changeCoordinates(newX, newY);
-        } catch (SamePointsException e) {
-            System.err.println(e.getMessage());
-        }
-
-        try {
-            mBC.changePoint(previousX, previousY, newX, newY);
-            mCA.changePoint(previousX, previousY, newX, newY);
-        } catch (PointNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
-
-        calculatePerimeter();
-        calculateArea();
     }
 }
