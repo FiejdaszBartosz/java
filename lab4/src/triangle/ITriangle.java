@@ -1,5 +1,6 @@
 package triangle;
 
+import exceptions.PointNotFoundException;
 import exceptions.TriangleVerticeNotFound;
 import point.Point;
 import vector.Vector;
@@ -11,4 +12,5 @@ public interface ITriangle {
     double getArea();
     double getPerimeter();
     void changeTrianglePoint(double previousX, double previousY, double newX, double newY) throws TriangleVerticeNotFound;
+    double calculateHeight(Point x) throws PointNotFoundException;
 }

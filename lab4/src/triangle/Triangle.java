@@ -92,5 +92,17 @@ public class Triangle implements ITriangle {
             calculatePerimeter();
             calculateArea();
         }
+
+    }
+
+    @Override
+    public double calculateHeight(Point x) throws PointNotFoundException {
+        for (Vector i : mVectors) {
+            if (i.findPoint(x.getX(), x.getY()) == -1) {
+                return 2 * mArea / i.getDistance();
+            }
+        }
+        // If not found
+        throw new PointNotFoundException();
     }
 }
