@@ -21,7 +21,7 @@ public class View implements IView {
     /**
      * default constructor arrays from parameters are needed for sorting
      *
-     * @param arrTraingle array of triangles
+     * @param arrTraingle   array of triangles
      * @param arrQuadrangle array of quadrangle
      */
     public View(Triangle[] arrTraingle, Quadrangle[] arrQuadrangle) {
@@ -225,8 +225,7 @@ public class View implements IView {
         if (position > mQuadranglesArraySize || position < 0) {
             System.err.println("Arr size error");
             changePointQuadrangle();
-        }
-        else {
+        } else {
             System.out.println("Podaj stary punkt :");
             previous = createPoint();
             System.out.println("Podaj nowy punkt :");
@@ -324,6 +323,38 @@ public class View implements IView {
         } else {
             System.err.println("Nieprawidłowy wybór");
             sortArray();
+        }
+    }
+
+    @Override
+    public void printMenu() {
+        int choice;
+
+        System.out.println("""
+                Wybierz co chcesz zrobic:
+                1 - Dodaj trójkąt
+                2 - Dodaj Kwadrat
+                3 - Zmień punkt w figurze
+                4 - Sortuj figury
+                """);
+
+        choice = parseWithMessageInt("");
+        switch (choice) {
+            case 1:
+                createTriangle();
+            case 2:
+                createQuadrangle();
+            case 3:
+                changePoint();
+            case 4:
+                sortArray();
+            case 5:
+                printTriangleArray();
+            case 6:
+                printQuadrangleArray();
+            default:
+                System.err.println("Incorrect choice");
+
         }
     }
 }

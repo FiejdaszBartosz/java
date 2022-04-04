@@ -15,4 +15,5 @@ public interface IView {
     void printTriangleArray();
     void printQuadrangleArray();
     void sortArray();
+    void printMenu();
 }
