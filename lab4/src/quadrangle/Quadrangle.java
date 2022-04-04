@@ -44,6 +44,9 @@ public class Quadrangle implements IQuadrangle {
         this.mPerimeter = quadrangle.mPerimeter;
     }
 
+    @Override
+    public double getArea() { return mArea; }
+
     /**
      * Calculates quadrangle's perimeter
      */
