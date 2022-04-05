@@ -1,12 +1,10 @@
 package view;
 
-import exceptions.CreateTriangleException;
-import exceptions.QuadrangleVerticeNotFound;
-import exceptions.TriangleVerticeNotFound;
-import exceptions.EmptyArrayException;
+import exceptions.*;
 import point.Point;
 import quadrangle.Quadrangle;
 import triangle.Triangle;
+import vector.Vector;
 import sort.Sort;
 
 import java.util.Scanner;
@@ -15,21 +13,25 @@ public class View implements IView {
     private Scanner sc;
     private Triangle[] mTrianglesArray;
     private Quadrangle[] mQuadranglesArray;
+    private Point[] mPointsArray;
     private Sort sort;
-    int mTriangleArraySize, mQuadranglesArraySize;
+    int mTriangleArraySize, mQuadranglesArraySize, mPointArraySize;
 
     /**
      * default constructor arrays from parameters are needed for sorting
      *
      * @param arrTraingle   array of triangles
      * @param arrQuadrangle array of quadrangle
+     * @param arrPoint array of points
      */
-    public View(Triangle[] arrTraingle, Quadrangle[] arrQuadrangle) {
+    public View(Triangle[] arrTraingle, Quadrangle[] arrQuadrangle, Point[] arrPoint) {
         this.sc = new Scanner(System.in);
         this.mTrianglesArray = arrTraingle;
         this.mQuadranglesArray = arrQuadrangle;
+        this.mPointsArray = arrPoint;
         mTriangleArraySize = 0;
         mQuadranglesArraySize = 0;
+        mPointArraySize = 0;
     }
 
     protected double parseWithMessageDouble(String message) {
@@ -62,6 +64,84 @@ public class View implements IView {
         }
 
         return res;
+    }
+
+    /**
+     * Adds points to mPointsArray
+     *
+     * @param point given point
+     */
+    private void addPointToArray(Point point) {
+        int i;
+
+        if (mPointArraySize != 0) {
+            Point[] newArray = new Point[mPointArraySize + 1];
+
+            for (i = 0; i < mPointArraySize; i++)
+                newArray[i] = mPointsArray[i];
+
+            mPointArraySize += 1;
+
+            mPointsArray[mPointArraySize] = point;
+        } else {
+            mPointsArray = new Point[]{point};
+        }
+    }
+
+    /**
+     * Creates point
+     */
+    @Override
+    public void addPoint() {
+        Point a;
+
+        System.out.println("Podaj punkt A:");
+        a = createPoint();
+
+        addPointToArray(a);
+    }
+
+    /**
+     * Calculate distance between two points provided by the user
+     *
+     * @throws EmptyArrayException if array is empty
+     */
+    @Override
+    public void countDistance() throws EmptyArrayException {
+        int firstPoint, secondPoint;
+
+        if (mPointArraySize == 0)
+            throw new EmptyArrayException();
+
+        printPointsArray();
+        System.out.println("Wybierz dwa punkt pomiedzy którymi chcesz obliczyć dystans:");
+        firstPoint = parseWithMessageInt("Wybierz 1 punkt");
+        secondPoint = parseWithMessageInt("Wybierz 2 punkt");
+
+        if ((firstPoint > mPointArraySize || firstPoint < 0) && (secondPoint > mPointArraySize || secondPoint < 0)) {
+            System.err.println("Arr size error");
+            countDistance();
+        } else {
+            Vector tempVector = new Vector(mPointsArray[firstPoint], mPointsArray[secondPoint]);
+            System.out.println("Dystans wynosi: " + tempVector.getDistance());
+        }
+
+    }
+
+    /**
+     * Prints points array
+     */
+    @Override
+    public void printPointsArray() {
+        int count = 0;
+
+        System.out.println("Dostępne punkty:");
+
+        for (Point i : mPointsArray) {
+            System.out.println(count + ") ");
+            i.printPoint();
+            count += 1;
+        }
     }
 
     /**
@@ -244,33 +324,74 @@ public class View implements IView {
     }
 
     /**
-     * Changes point. User have to choose whether he wants to make changes to a triangle or a quadrangle
+     * Changes coordinate of the point provided by the user
+     *
+     * @throws EmptyArrayException if array is empty
+     */
+    private void changePoint() throws EmptyArrayException {
+        Point current;
+        int position;
+
+        if (mPointArraySize == 0)
+            throw new EmptyArrayException();
+
+        printPointsArray();
+        position = parseWithMessageInt("Wybierz w którym chcesz dokonać zmian");
+
+        if (position > mPointArraySize || position < 0) {
+            System.err.println("Arr size error");
+            changePoint();
+        } else {
+            System.out.println("Podaj nowy punkt :");
+            current = createPoint();
+
+            try {
+                mPointsArray[position].changeCoordinates(current.getX(), current.getY());
+            } catch (SamePointsException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Changes point. User have to choose whether he wants to make changes to: triangle, quadrangle or point
      */
     @Override
-    public void changePoint() {
+    public void changeCoordinate() {
         int choice;
 
         System.out.println("""
                 Zmień punkt w:
                 0 - trójkat
-                1 - czworobok""");
+                1 - czworobok
+                2 - punkt""");
         choice = parseWithMessageInt("");
 
-        if (choice == 0)
-            try {
-                changePointTriangle();
-            } catch (EmptyArrayException e) {
-                System.err.println(e.getMessage());
-            }
-        else if (choice == 1) {
-            try {
-                changePointQuadrangle();
-            } catch (EmptyArrayException e) {
-                System.err.println(e.getMessage());
-            }
-        } else {
-            System.err.println("Nieprawidłowy wybór");
-            changePoint();
+        switch (choice) {
+            case 0:
+                try {
+                    changePointTriangle();
+                } catch (EmptyArrayException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+            case 1:
+                try {
+                    changePointQuadrangle();
+                } catch (EmptyArrayException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+            case 2:
+                try {
+                    changePoint();
+                } catch (EmptyArrayException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+            default:
+                System.err.println("Nieprawidłowy wybór");
+                changeCoordinate();
         }
     }
 
@@ -327,34 +448,69 @@ public class View implements IView {
     }
 
     @Override
-    public void printMenu() {
+    public void printMenu(boolean ifContinue) {
         int choice;
 
         System.out.println("""
                 Wybierz co chcesz zrobic:
-                1 - Dodaj trójkąt
-                2 - Dodaj Kwadrat
-                3 - Zmień punkt w figurze
-                4 - Sortuj figury
+                1 - Dodaj punkt
+                2 - Dodaj trójkąt
+                3 - Dodaj czworobok
+                4 - Zmień punkt
+                5 - Sortuj figury
+                6 - Wyświetl trójkąty
+                7 - Wyświetl czworoboki
+                8 - Wyświetl punkty
+                9 - Oblicz dystans miedzy punktami
+                10 - Wyjście
                 """);
 
         choice = parseWithMessageInt("");
         switch (choice) {
             case 1:
-                createTriangle();
+                addPoint();
+
+                break;
             case 2:
-                createQuadrangle();
+                createTriangle();
+
+                break;
             case 3:
-                changePoint();
+                createQuadrangle();
+
+                break;
             case 4:
-                sortArray();
+                changeCoordinate();
+
+                break;
             case 5:
-                printTriangleArray();
+                sortArray();
+
+                break;
             case 6:
+                printTriangleArray();
+
+                break;
+            case 7:
                 printQuadrangleArray();
+                break;
+            case 8:
+                printPointsArray();
+                break;
+            case 9:
+                try {
+                    countDistance();
+                } catch (EmptyArrayException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+            case 10:
+                ifContinue = false;
+                break;
             default:
                 System.err.println("Incorrect choice");
-
+                printMenu(ifContinue);
+                break;
         }
     }
 }

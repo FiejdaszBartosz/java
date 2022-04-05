@@ -57,4 +57,9 @@ public class Point implements IPoint {
 
     @Override
     public boolean checkPoint(double x, double y) { return mX == x && mY == y; }
+
+    @Override
+    public void printPoint() {
+        System.out.println("(" + mX + "," + mY + ")");
+    }
 }

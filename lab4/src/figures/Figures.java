@@ -1,17 +1,21 @@
 package figures;
 
+import point.Point;
 import quadrangle.Quadrangle;
 import triangle.Triangle;
+import view.View;
 
 public class Figures {
-    private Triangle[] mTriangle;
-    private Quadrangle[] mQuadrangle;
-    private boolean mIfContnue = true;
+    public static void main(String[] args) {
+        Triangle[] triangles = new Triangle[]{};
+        Quadrangle[] quadrangles = new Quadrangle[]{};
+        Point[] points = new Point[]{};
+        View v = new View(triangles, quadrangles, points);
+        boolean ifContnue = true;
 
-    private void menu() {
-        System.out.println("""
-        
-        """);
+        while (ifContnue)  {
+            v.printMenu(ifContnue);
+        }
     }
 
 }

@@ -10,4 +10,5 @@ public interface IPoint {
     void setY(double y);
     void changeCoordinates(double newX, double newY) throws SamePointsException;
     boolean checkPoint(double x, double y);
+    void printPoint();
 }

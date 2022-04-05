@@ -7,13 +7,16 @@ import triangle.Triangle;
 
 public interface IView {
     Point createPoint();
+    void addPoint();
+    void countDistance() throws EmptyArrayException;
+    void printPointsArray();
     void addTriangle(Triangle triangle);
     void addQuadrangle(Quadrangle quadrangle);
     void createTriangle();
     void createQuadrangle();
-    void changePoint();
+    void changeCoordinate();
     void printTriangleArray();
     void printQuadrangleArray();
     void sortArray();
-    void printMenu();
+    void printMenu(boolean ifContinue);
 }
