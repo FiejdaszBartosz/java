@@ -80,11 +80,12 @@ public class View implements IView {
             for (i = 0; i < mPointArraySize; i++)
                 newArray[i] = mPointsArray[i];
 
+            newArray[mPointArraySize] = point;
+            mPointsArray = newArray;
             mPointArraySize += 1;
-
-            mPointsArray[mPointArraySize] = point;
         } else {
             mPointsArray = new Point[]{point};
+            mPointArraySize += 1;
         }
     }
 
@@ -159,11 +160,14 @@ public class View implements IView {
             for (i = 0; i < mTriangleArraySize; i++)
                 newArray[i] = mTrianglesArray[i];
 
+            //mTrianglesArray[mTriangleArraySize - 1] = triangle;
+            newArray[mTriangleArraySize] = triangle;
+            mTrianglesArray = newArray;
             mTriangleArraySize += 1;
 
-            mTrianglesArray[mTriangleArraySize] = triangle;
         } else {
             mTrianglesArray = new Triangle[]{triangle};
+            mTriangleArraySize += 1;
         }
     }
 
@@ -182,11 +186,12 @@ public class View implements IView {
             for (i = 0; i < mQuadranglesArraySize; i++)
                 newArray[i] = mQuadranglesArray[i];
 
+            newArray[mQuadranglesArraySize] = quadrangle;
+            mQuadranglesArray = newArray;
             mQuadranglesArraySize += 1;
-
-            mQuadranglesArray[mQuadranglesArraySize] = quadrangle;
         } else {
             mQuadranglesArray = new Quadrangle[]{quadrangle};
+            mQuadranglesArraySize += 1;
         }
     }
 
