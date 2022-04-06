@@ -55,12 +55,20 @@ public class StandardView implements ICurrencyView {
         ICurrency fromCurrency;
         ICurrency toCurrency;
         double amount = 0.0, afterExchange = 0.0;
+        String msg;
 
         fromCurrency = ChooseCurrency("\nPodaj kod waluty z której chcesz dokonaać wymiany: ");
         toCurrency = ChooseCurrency("\nPodaj kod waluty do której chcesz dokonaać wymiany: ");
 
         System.out.println("\nPodaj ilość jaką chcesz wymienić: ");
-        amount = Double.parseDouble(sc.nextLine());
+        msg = sc.nextLine();
+
+        try {
+            amount = Double.parseDouble(msg);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            exchange();
+        }
 
         if (amount < 0.0) {
             System.err.println("Podano nieprawidłową ilość\n");

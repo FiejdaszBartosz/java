@@ -144,5 +144,7 @@ public class Triangle implements ITriangle {
             msg += count + " - (" + i.getX() + "," + i.getY() + ")\t";
             count += 1;
         }
+
+        System.out.println(msg);
     }
 }

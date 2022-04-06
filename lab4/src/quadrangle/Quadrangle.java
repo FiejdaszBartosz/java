@@ -115,6 +115,8 @@ public class Quadrangle implements IQuadrangle {
             msg += count + " - (" + i.getX() + "," + i.getY() + ")\t";
             count += 1;
         }
+
+        System.out.println(msg);
     }
 }
 
