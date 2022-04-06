@@ -22,7 +22,7 @@ public class View implements IView {
      *
      * @param arrTraingle   array of triangles
      * @param arrQuadrangle array of quadrangle
-     * @param arrPoint array of points
+     * @param arrPoint      array of points
      */
     public View(Triangle[] arrTraingle, Quadrangle[] arrQuadrangle, Point[] arrPoint) {
         this.sc = new Scanner(System.in);
