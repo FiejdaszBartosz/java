@@ -116,6 +116,8 @@ public class Quadrangle implements IQuadrangle {
             count += 1;
         }
 
+        msg += "Pole = " + mArea + "\tObwod = " + mPerimeter;
+
         System.out.println(msg);
     }
 }

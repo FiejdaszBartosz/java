@@ -145,6 +145,8 @@ public class Triangle implements ITriangle {
             count += 1;
         }
 
+        msg += "Pole = " + mArea + "\tObwod = " + mPerimeter;
+
         System.out.println(msg);
     }
 }

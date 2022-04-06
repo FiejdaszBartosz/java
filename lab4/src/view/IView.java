@@ -17,6 +17,7 @@ public interface IView {
     void changeCoordinate();
     void printTriangleArray();
     void printQuadrangleArray();
+    void countHeight() throws EmptyArrayException;
     void sortArray();
     void printMenu(boolean ifContinue);
 }

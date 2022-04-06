@@ -433,6 +433,31 @@ public class View implements IView {
     }
 
     @Override
+    public void countHeight() throws EmptyArrayException {
+        int choice;
+        Point pointChange = null;
+
+        if (mTriangleArraySize == 0)
+            throw new EmptyArrayException();
+
+        printTriangleArray();
+        choice = parseWithMessageInt("Wybierz trojkat z ktorego chcesz wyliczyc wysokosc:");
+
+        if (choice > mTriangleArraySize || choice < 0) {
+            System.err.println("Arr size error");
+            countHeight();
+        } else {
+            mTrianglesArray[choice].printTriangle();
+                pointChange = createPoint();
+            try {
+                 System.out.println("Wysokosc: " + mTrianglesArray[choice].calculateHeight(pointChange));
+            } catch (PointNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    @Override
     public void sortArray() {
         int choice;
 
@@ -467,7 +492,8 @@ public class View implements IView {
                 7 - Wyświetl czworoboki
                 8 - Wyświetl punkty
                 9 - Oblicz dystans miedzy punktami
-                10 - Wyjście
+                10 - Oblicz wysokosc
+                11 - Wyjście
                 """);
 
         choice = parseWithMessageInt("");
@@ -510,6 +536,13 @@ public class View implements IView {
                 }
                 break;
             case 10:
+                try {
+                    countHeight();
+                } catch (EmptyArrayException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+            case 11:
                 ifContinue = false;
                 break;
             default:
