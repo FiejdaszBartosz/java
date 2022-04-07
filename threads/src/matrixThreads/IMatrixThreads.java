@@ -1,7 +1,5 @@
 package matrixThreads;
 
-public interface IMatrixThreads {
-    void createThreads();
+public interface IMatrixThreads{
     int calculateAvailableThreads();
-
 }

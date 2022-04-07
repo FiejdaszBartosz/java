@@ -12,7 +12,7 @@ public class Main {
     static IMatrix d;
     public static void main(String[] args) {
 
-        int n=50,m=50;
+        int n=300000,m=300000;
         System.out.println("Generuję macierze...");
         a= DefaultGenerator.generateRandomMatrix(m,n,0,3);
         b= DefaultGenerator.generateRandomMatrix(m,n,0,3);
