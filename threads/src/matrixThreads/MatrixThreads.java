@@ -28,6 +28,14 @@ public class MatrixThreads implements IMatrixThreads{
         this.mRow = row;
     }
 
+    public void createTasks() {
+        Multiplication task;
+        for (int i = 0; i < mRow; i++) {
+            task = new Multiplication(mFirstMatrix, mSecondMatrix, mResult, i);
+            addThread(task);
+        }
+    }
+
     private void addThread(Multiplication newTask) {
         Thread tempThread = new Thread(newTask);
         tempThread.start();
@@ -36,14 +44,6 @@ public class MatrixThreads implements IMatrixThreads{
 
         if (mCounter == mSize)
             waitForThreads(mThreads);
-    }
-
-    public void createTasks() {
-        Multiplication task;
-        for (int i = 0; i < mRow; i++) {
-            task = new Multiplication(mFirstMatrix, mSecondMatrix, mResult, mRow);
-            addThread(task);
-        }
     }
 
     private void waitForThreads(Thread[] table) {

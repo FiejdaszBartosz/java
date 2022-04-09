@@ -17,7 +17,12 @@ public class Multiplication implements IMultiplication {
 
     @Override
     public void run() {
-        mResult = IMatrix.multiply(mFirstMatrix, mSecondMatrix);
+        for (int i = 0; i < mSecondMatrix.rowCount(); i++) {
+            mResult.getData()[mRow][i] = 0;
+            for (int j = 0; j < mFirstMatrix.getData()[mRow].length; j++) {
+                mResult.getData()[mRow][i] += mFirstMatrix.getData()[mRow][j] * mSecondMatrix.getData()[j][i];
+            }
+        }
     }
 
 }
