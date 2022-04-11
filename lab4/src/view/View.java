@@ -14,8 +14,9 @@ public class View implements IView {
     private Triangle[] mTrianglesArray;
     private Quadrangle[] mQuadranglesArray;
     private Point[] mPointsArray;
-    private Sort sort;
+    private Sort mSort;
     int mTriangleArraySize, mQuadranglesArraySize, mPointArraySize;
+    private boolean mIfContinue;
 
     /**
      * default constructor arrays from parameters are needed for sorting
@@ -32,6 +33,7 @@ public class View implements IView {
         mTriangleArraySize = 0;
         mQuadranglesArraySize = 0;
         mPointArraySize = 0;
+        mIfContinue = true;
     }
 
     protected double parseWithMessageDouble(String message) {
@@ -432,6 +434,10 @@ public class View implements IView {
         }
     }
 
+    /**
+     * Counts height. User have to choose vertex
+     * @throws EmptyArrayException when array is empty
+     */
     @Override
     public void countHeight() throws EmptyArrayException {
         int choice;
@@ -448,15 +454,18 @@ public class View implements IView {
             countHeight();
         } else {
             mTrianglesArray[choice].printTriangle();
-                pointChange = createPoint();
+            pointChange = createPoint();
             try {
-                 System.out.println("Wysokosc: " + mTrianglesArray[choice].calculateHeight(pointChange));
+                System.out.println("Wysokosc: " + mTrianglesArray[choice].calculateHeight(pointChange));
             } catch (PointNotFoundException e) {
                 System.err.println(e.getMessage());
             }
         }
     }
 
+    /**
+     * Sorts array. User have to choose array
+     */
     @Override
     public void sortArray() {
         int choice;
@@ -467,88 +476,98 @@ public class View implements IView {
                 1 - czworoboki""");
         choice = parseWithMessageInt("");
 
+         mSort = new Sort(mTrianglesArray, mQuadranglesArray);
+
         if (choice == 0)
-            sort.sortTriangleArray(mTrianglesArray);
+            mSort.sortTriangleArray();
         else if (choice == 1) {
-            sort.sortQuadrangleArray(mQuadranglesArray);
+            mSort.sortQuadrangleArray();
         } else {
             System.err.println("Nieprawidłowy wybór");
             sortArray();
         }
     }
 
+    /**
+     * Prints menu
+     */
     @Override
-    public void printMenu(boolean ifContinue) {
+    public void printMenu() {
         int choice;
+        while (mIfContinue) {
+            System.out.println("""
+                    Wybierz co chcesz zrobic:
+                    1 - Dodaj punkt
+                    2 - Dodaj trójkąt
+                    3 - Dodaj czworobok
+                    4 - Zmień punkt
+                    5 - Sortuj figury
+                    6 - Wyświetl trójkąty
+                    7 - Wyświetl czworoboki
+                    8 - Wyświetl punkty
+                    9 - Oblicz dystans miedzy punktami
+                    10 - Oblicz wysokosc
+                    11 - Wyjście
+                    """);
 
-        System.out.println("""
-                Wybierz co chcesz zrobic:
-                1 - Dodaj punkt
-                2 - Dodaj trójkąt
-                3 - Dodaj czworobok
-                4 - Zmień punkt
-                5 - Sortuj figury
-                6 - Wyświetl trójkąty
-                7 - Wyświetl czworoboki
-                8 - Wyświetl punkty
-                9 - Oblicz dystans miedzy punktami
-                10 - Oblicz wysokosc
-                11 - Wyjście
-                """);
-
-        choice = parseWithMessageInt("");
-        switch (choice) {
-            case 1:
-                addPoint();
-
-                break;
-            case 2:
-                createTriangle();
-
-                break;
-            case 3:
-                createQuadrangle();
-
-                break;
-            case 4:
-                changeCoordinate();
-
-                break;
-            case 5:
-                sortArray();
-
-                break;
-            case 6:
-                printTriangleArray();
-
-                break;
-            case 7:
-                printQuadrangleArray();
-                break;
-            case 8:
-                printPointsArray();
-                break;
-            case 9:
-                try {
-                    countDistance();
-                } catch (EmptyArrayException e) {
-                    System.err.println(e.getMessage());
-                }
-                break;
-            case 10:
-                try {
-                    countHeight();
-                } catch (EmptyArrayException e) {
-                    System.err.println(e.getMessage());
-                }
-                break;
-            case 11:
-                ifContinue = false;
-                break;
-            default:
-                System.err.println("Incorrect choice");
-                printMenu(ifContinue);
-                break;
+            choice = parseWithMessageInt("");
+            switch (choice) {
+                case 1:
+                    addPoint();
+                    printMenu();
+                    break;
+                case 2:
+                    createTriangle();
+                    printMenu();
+                    break;
+                case 3:
+                    createQuadrangle();
+                    printMenu();
+                    break;
+                case 4:
+                    changeCoordinate();
+                    printMenu();
+                    break;
+                case 5:
+                    sortArray();
+                    printMenu();
+                    break;
+                case 6:
+                    printTriangleArray();
+                    printMenu();
+                    break;
+                case 7:
+                    printQuadrangleArray();
+                    printMenu();
+                    break;
+                case 8:
+                    printPointsArray();
+                    printMenu();
+                    break;
+                case 9:
+                    try {
+                        countDistance();
+                    } catch (EmptyArrayException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    printMenu();
+                    break;
+                case 10:
+                    try {
+                        countHeight();
+                    } catch (EmptyArrayException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    printMenu();
+                    break;
+                case 11:
+                    mIfContinue = false;
+                    break;
+                default:
+                    System.err.println("Incorrect choice");
+                    printMenu();
+                    break;
+            }
         }
     }
 }
