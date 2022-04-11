@@ -16,6 +16,9 @@ public class Multiplication implements IMultiplication {
     }
 
     @Override
+    public void setRow(int row) { this.mRow = row; }
+
+    @Override
     public void run() {
         for (int i = 0; i < mSecondMatrix.rowCount(); i++) {
             mResult.getData()[mRow][i] = 0;
