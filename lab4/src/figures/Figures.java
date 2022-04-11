@@ -11,11 +11,8 @@ public class Figures {
         Quadrangle[] quadrangles = new Quadrangle[]{};
         Point[] points = new Point[]{};
         View v = new View(triangles, quadrangles, points);
-        boolean ifContnue = true;
 
-        while (ifContnue)  {
-            v.printMenu(ifContnue);
-        }
+        v.printMenu();
     }
 
 }

@@ -19,5 +19,5 @@ public interface IView {
     void printQuadrangleArray();
     void countHeight() throws EmptyArrayException;
     void sortArray();
-    void printMenu(boolean ifContinue);
+    void printMenu();
 }
