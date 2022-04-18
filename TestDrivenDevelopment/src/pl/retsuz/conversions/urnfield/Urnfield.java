@@ -28,19 +28,11 @@ public class Urnfield implements GenericNumeralSystem {
         int result = 0;
         char[] number = new char[val.length()];
 
-        // max input length
-        if (val.length() > 14)
+        if (!validateNumber(val))
             throw new IllegalArgumentException();
 
         for (int i = 0; i < val.length(); i++) {
-            int j = i + 1;
-
-            // input could be \ or /
-            // exception / after \
-            if (val.charAt(i) == '\\' || val.charAt(i) == '/' || !(val.charAt(i) == '\\' || val.charAt(j) == '/'))
-                number[i] = val.charAt(i);
-            else
-                throw new UnsupportedOperationException();
+            number[i] = val.charAt(i);
         }
 
         for (char i : number) {
@@ -51,5 +43,9 @@ public class Urnfield implements GenericNumeralSystem {
         }
 
         return result;
+    }
+
+    private boolean validateNumber(String val) {
+        return val.matches("/{0,4}\\\\{0,5}");
     }
 }

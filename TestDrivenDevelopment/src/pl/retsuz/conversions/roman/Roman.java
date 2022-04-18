@@ -9,6 +9,7 @@ public class Roman implements GenericNumeralSystem {
     private String mHundreds[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
     private String mDozens[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
     private String mUnity[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+    private boolean isValidate;
 
     @Override
     public String fromArabic(int val) {
@@ -31,6 +32,9 @@ public class Roman implements GenericNumeralSystem {
         int result = 0, previous = 0;
         char temp;
         val = val.toUpperCase(Locale.ROOT);
+
+        if(!validateNumber(val))
+            throw new IllegalArgumentException();
 
         for (int i = val.length() - 1; i >= 0; i--) {
             temp = val.charAt(i);
@@ -78,9 +82,22 @@ public class Roman implements GenericNumeralSystem {
      */
     private int specifyNumber(int number, int previous, int result) {
         if (previous > number) {
-            return result - number;
+                return result - number;
         } else {
             return  result + number;
         }
+    }
+
+    private boolean validateNumber(String val) {
+        /*
+            Regex meaning:
+            M{0,3} M or MM or MMM
+            (CM|CD|D?C{0,3}) CM or CD or D or DC or DCC or DCCC
+         */
+        return val.matches(
+                "M{0,3}"
+                        + "(CM|CD|D?C{0,3})"
+                        + "(XC|XL|L?X{0,3})"
+                        + "(IX|IV|V?I{0,3})");
     }
 }
