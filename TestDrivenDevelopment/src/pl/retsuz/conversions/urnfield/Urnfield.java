@@ -29,7 +29,7 @@ public class Urnfield implements GenericNumeralSystem {
         char[] number = new char[val.length()];
 
         if (!validateNumber(val))
-            throw new IllegalArgumentException();
+            throw new UnsupportedOperationException();
 
         for (int i = 0; i < val.length(); i++) {
             number[i] = val.charAt(i);

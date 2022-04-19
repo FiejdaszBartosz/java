@@ -17,7 +17,7 @@ public class Roman implements GenericNumeralSystem {
         int temp;
 
         if (val < 0 || val  > 3999)
-            throw new IllegalArgumentException();
+            throw new UnsupportedOperationException();
 
         result = mThousands[val / 1000]
                 + mHundreds[(val % 1000) / 100]
@@ -34,7 +34,7 @@ public class Roman implements GenericNumeralSystem {
         val = val.toUpperCase(Locale.ROOT);
 
         if(!validateNumber(val))
-            throw new IllegalArgumentException();
+            throw new UnsupportedOperationException();
 
         for (int i = val.length() - 1; i >= 0; i--) {
             temp = val.charAt(i);
@@ -67,7 +67,7 @@ public class Roman implements GenericNumeralSystem {
                     result = specifyNumber(1, previous, result);
                     previous = 1;
                 }
-                default -> throw new IllegalArgumentException();
+                default -> throw new UnsupportedOperationException();
             }
         }
         return result;
