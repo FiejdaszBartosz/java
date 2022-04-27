@@ -1,5 +1,7 @@
 package model.entities;
 
+import java.util.List;
+
 public class Currency implements ICurrency{
     String name;
     String code;
@@ -44,6 +46,10 @@ public class Currency implements ICurrency{
         if (o == null || this.getClass() != o.getClass()) return false;
         Currency currency = (Currency) o;
         return this.code.equals(currency.getCode());
+    }
+
+    public String toString(){
+        return name;
     }
 
 }
