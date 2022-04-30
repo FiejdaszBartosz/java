@@ -8,7 +8,7 @@ public class ShuntingYard {
      * @param symbol math symbol
      * @return priority
      */
-    static int getPriority(char symbol) {
+    private static int getPriority(char symbol) {
         if (symbol == '+' || symbol == '-')
             return 1;
         else if (symbol == 'x' || symbol == '/')
@@ -25,24 +25,24 @@ public class ShuntingYard {
     public static String toPostfixNotation(String input) {
         Stack<Character> stack = new Stack<>();
         String result = "";
-        boolean isPoint = false;
 
         for (int i = 0; i < input.length(); i++) {
             char character = input.charAt(i);
 
-            if (Character.isLetterOrDigit(character) || character == '.')    // digit or .
+            if (Character.isLetterOrDigit(character) && character != 'x' ||  character == '.') // digit or .
                 result += character;
             else if (character == '(')
                 stack.push(character);
             else if (character == ')') {
                 while (!stack.isEmpty() && stack.peek() != '(')
-                    result += stack.pop();
+                    result += " " + stack.pop();
                 stack.pop();    // Delete (
             } else {
                 while (!stack.isEmpty()
                         && getPriority(character) <= getPriority(stack.peek())) {
-                    result += stack.pop();
+                    result += " " + stack.pop();
                 }
+                result += " ";
                 stack.push(character);
             }
         }
@@ -50,7 +50,7 @@ public class ShuntingYard {
         while (!stack.isEmpty()) {
             if (stack.peek() == '(')
                 return "This expression is invalid";
-            result += stack.pop();
+            result += " " + stack.pop();
         }
         return result;
     }
