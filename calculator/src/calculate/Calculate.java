@@ -3,6 +3,26 @@ package calculate;
 import java.util.Stack;
 
 public class Calculate {
+    private Stack<String> mStack;
+    public String mExpression;
+
+    public Calculate() {
+        this.mStack = new Stack<>();
+    }
+
+    private void addToStack(char input) {
+        if (mStack.isEmpty())
+            mStack.push(String.valueOf(input));
+        else {
+            if (mStack.peek().charAt(0) == '.') {
+                mStack.pop();
+                String temp = mStack.pop() + "." + input;
+                mStack.push(temp);
+            } else
+                mStack.push(String.valueOf(input));
+        }
+    }
+
     public static double compute(char symbol, double a, double b) {
         switch (symbol) {
             case '+' -> {
@@ -23,31 +43,22 @@ public class Calculate {
         }
     }
 
-    public static double calculateExpression(String input) {
-        Stack<String> stack = new Stack<>();
-        double result = 0;
+    public double calculateExpression(String input) {
+        String a, b;
+        double temp = 0;
 
         for (int i = 0; i < input.length(); i++) {
             char character = input.charAt(i);
 
-            if (Character.isLetterOrDigit(character))
-                stack.push(String.valueOf(character));
+            if (Character.isLetterOrDigit(character) || character == '.')
+                addToStack(character);
             else {
-                String firstNumber = stack.pop();
-                if (stack.peek().charAt(0) == '.') {
-
-                    // to do float operations
-
-                } else {
-                    String secondNumber = stack.pop();
-                    double newNumber = compute(character
-                            , Double.valueOf(firstNumber)
-                            , Double.valueOf(secondNumber));
-                    stack.push(String.valueOf(newNumber));
-                }
-
+                b = mStack.pop();
+                a = mStack.pop();
+                temp = compute(character, Double.valueOf(a), Double.valueOf(b));
+                mStack.push(String.valueOf(temp));
             }
         }
-        return Double.valueOf(stack.pop());
+        return Double.valueOf(mStack.pop());
     }
 }
