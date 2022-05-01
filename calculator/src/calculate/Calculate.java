@@ -3,6 +3,13 @@ package calculate;
 import java.util.Stack;
 
 public class Calculate {
+    /**
+     * Performs a math operation based on the given char
+     * @param symbol
+     * @param a
+     * @param b
+     * @return
+     */
     public static double compute(char symbol, double a, double b) {
         switch (symbol) {
             case '+' -> {
@@ -23,6 +30,11 @@ public class Calculate {
         }
     }
 
+    /**
+     * Evaluates the expression in Reverse Polish notation
+     * @param input
+     * @return
+     */
     public static double calculateExpression(String input) {
         Stack<String> stack = new Stack<>();
         String a, b, temp = "";

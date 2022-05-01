@@ -52,6 +52,7 @@ public class ShuntingYard {
                 return "This expression is invalid";
             result += " " + stack.pop();
         }
+
         return result;
     }
 }
