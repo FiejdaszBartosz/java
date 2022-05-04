@@ -1,5 +1,8 @@
 package calculate;
 
+import exceptions.InvalidInputException;
+import shuntingYard.ShuntingYard;
+
 import java.util.Stack;
 
 public class Calculate {
@@ -59,5 +62,13 @@ public class Calculate {
             }
         }
         return Double.valueOf(stack.pop());
+    }
+
+    public static double solve(String input) throws InvalidInputException{
+        try {
+            return calculateExpression(ShuntingYard.toPostfixNotation(input));
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
     }
 }
