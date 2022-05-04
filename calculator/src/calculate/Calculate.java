@@ -8,10 +8,10 @@ import java.util.Stack;
 public class Calculate {
     /**
      * Performs a math operation based on the given char
-     * @param symbol
-     * @param a
-     * @param b
-     * @return
+     * @param symbol math operator
+     * @param a left side value
+     * @param b right side value
+     * @return result of the mathematical operation
      */
     public static double compute(char symbol, double a, double b) {
         switch (symbol) {
@@ -35,8 +35,8 @@ public class Calculate {
 
     /**
      * Evaluates the expression in Reverse Polish notation
-     * @param input
-     * @return
+     * @param input expression in Reverse Polish notation
+     * @return computed expression
      */
     public static double calculateExpression(String input) {
         Stack<String> stack = new Stack<>();
