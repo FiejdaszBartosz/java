@@ -3,7 +3,12 @@ package validations;
 import java.util.Stack;
 
 public class Validations {
-    public static boolean ifNotAllowedSign(String input) {
+    /**
+     * Checks if before last character is sign or digit. If it is sign it will be ignored.
+     * @param input expression
+     * @return true when character should be ignored, false in other case
+     */
+    private static boolean ifNotAllowedSign(String input) {
         char[] signs = {'+', '-', 'x', '/', '.'};
 
         char last = input.charAt(input.length() - 1);
@@ -19,6 +24,11 @@ public class Validations {
         return false;
     }
 
+    /**
+     * Validates the entered text. Checks if the first character is correct.
+     * @param input expression
+     * @return
+     */
     public static boolean ifIgnoreSign(String input) {
         if(input.length() != 0) {
             char last = input.charAt(input.length() - 1);
