@@ -1,70 +1,75 @@
 package client;
 
 import clientHandler.ClientHandler;
+import message.Message;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client {
     private Socket mClientSocket;
-    private BufferedReader mBufferedReader;
-    private BufferedWriter mBufferedWriter;
+    private ObjectInputStream mInputStream;
+    private ObjectOutputStream mOutputStream;
     private String mUsername;
     public String outputMessage;
 
     public Client(Socket socket, String username) {
         try {
-            this.mClientSocket = socket;
-            this.mBufferedWriter = new BufferedWriter(new OutputStreamWriter(mClientSocket.getOutputStream()));
-            this.mBufferedReader = new BufferedReader(new InputStreamReader(mClientSocket.getInputStream()));
             this.mUsername = username;
+            this.mClientSocket = socket;
+            this.mOutputStream = new ObjectOutputStream(mClientSocket.getOutputStream());
+            this.mInputStream = new ObjectInputStream(mClientSocket.getInputStream());
+            sendMessage(new Message("@first",mUsername));
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            logOutUser(mClientSocket, mBufferedReader, mBufferedWriter);
+            logOutUser(mClientSocket, mInputStream, mOutputStream);
         }
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(Message message) {
         try {
-            mBufferedWriter.write(mUsername);
-            mBufferedWriter.newLine();
-            mBufferedWriter.flush();
-
-            while (mClientSocket.isConnected()) {
-                mBufferedWriter.write("[" + mUsername + "] " + message);
-                mBufferedWriter.newLine();
-                mBufferedWriter.flush();
-            }
+            mOutputStream.writeObject(message);
+            mOutputStream.flush();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            logOutUser(mClientSocket, mBufferedReader, mBufferedWriter);
+            logOutUser(mClientSocket, mInputStream, mOutputStream);
         }
     }
 
-    public void waitForMessage() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String input;
-                try {
-                    outputMessage =  mBufferedReader.readLine();
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                    logOutUser(mClientSocket, mBufferedReader, mBufferedWriter);
-                }
+    public Message waitForMessage() {
+        Message input;
+            input = null;
+            try {
+                input = (Message) mInputStream.readObject();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                logOutUser(mClientSocket, mInputStream, mOutputStream);
             }
-        }).start();
+
+            return input;
     }
 
-    public void logOutUser(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    public void logOutUser(Socket socket, ObjectInputStream inputStream, ObjectOutputStream outputStream) {
         try {
             if (socket != null)
                 socket.close();
-            if (bufferedReader != null)
-                bufferedReader.close();
-            if (bufferedWriter != null)
-                bufferedWriter.close();
+            if (inputStream != null)
+                inputStream.close();
+            if (outputStream != null)
+                outputStream.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void logOutUser() {
+        try {
+            if (mClientSocket != null)
+                mClientSocket.close();
+            if (mInputStream != null)
+                mInputStream.close();
+            if (mOutputStream != null)
+                mOutputStream.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
