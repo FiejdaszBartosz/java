@@ -21,6 +21,7 @@ public class ClientHandler implements Runnable {
 
             clientHandlerArrayList.add(this);
             sendMessage(this.mUsername + " is new user");
+            System.out.println("New client connected");
         } catch (IOException e) {
             System.out.println(e.getMessage());
             logOutUser(mClientSocket, mBufferedReader, mBufferedWriter);
@@ -42,6 +43,7 @@ public class ClientHandler implements Runnable {
 
     public void disconnectClient() {
         sendMessage(this.mUsername + " disconnected");
+        System.out.println("Client disconnected");
         clientHandlerArrayList.remove(this);
     }
 
@@ -57,7 +59,6 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override
@@ -69,6 +70,10 @@ public class ClientHandler implements Runnable {
                 input = mBufferedReader.readLine();
                 if (input != null)
                     sendMessage(input);
+                else {
+                    disconnectClient();
+                    break;
+                }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
                 logOutUser(mClientSocket, mBufferedReader, mBufferedWriter);

@@ -20,7 +20,6 @@ public class Server implements IServer {
     public void startServer() throws IOException {
         while (!mServerSocket.isClosed()) {
             Socket socket = mServerSocket.accept();
-            System.out.println("New client");
             ClientHandler clientHandler = new ClientHandler(socket);
 
             Thread thread = new Thread(clientHandler);
