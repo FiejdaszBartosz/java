@@ -5,6 +5,8 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "person", schema = "labhibernate")
+@NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a where a.town = ?1 and a.personByAiPId = p")
+
 public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -19,7 +21,7 @@ public class PersonEntity {
     @Basic
     @Column(name = "p_email")
     private String pEmail;
-    @OneToMany(mappedBy = "personByAiPId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personByAiPId", fetch = FetchType.EAGER)
     private Collection<AddressInfoEntity> addressInfosByPId;
 
     public int getpId() {

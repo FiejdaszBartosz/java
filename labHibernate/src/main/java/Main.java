@@ -1,9 +1,7 @@
+import entity.AddressInfoEntity;
 import entity.PersonEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.Scanner;
 
 public class Main {
@@ -17,20 +15,30 @@ public class Main {
         try {
             tr.begin();
 
-            PersonEntity major = new PersonEntity();
+            PersonEntity person = new PersonEntity();
+            person.setpName("Major");
+            person.setpSurname("Suchodolski");
+            person.setpEmail("major@bombas.pl");
 
-            System.out.println("Podaj imie:");
-            major.setpName(sc.nextLine());
+            AddressInfoEntity address = new AddressInfoEntity();
+            address.setStreet("Szkolna");
+            address.setHouseNumber("17");
+            address.setTown("Bialystok");
+            address.setState("Podlaskie");
+            address.setCountry("Polska");
 
-            System.out.println("Podaj nazwisko:");
-            major.setpSurname(sc.nextLine());
+            AddressInfoEntity address2 = new AddressInfoEntity();
+            address.setStreet("Plac Brodowicza");
+            address.setHouseNumber("1");
+            address.setTown("Choroszcz");
+            address.setState("Podlaskie");
+            address.setCountry("Polska");
 
-            System.out.println("Podaj mail:");
-            major.setpEmail(sc.nextLine());
+            address.setPersonByAiPId(person);
+            address2.setPersonByAiPId(person);
 
-            man.persist(major);
+            man.persist(person);
 
-            tr.commit();
         } finally {
             if (tr.isActive()) tr.rollback();
             man.close();

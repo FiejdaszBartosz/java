@@ -28,7 +28,7 @@ public class AddressInfoEntity {
     @Column(name = "country")
     private String country;
     @ManyToOne
-    @JoinColumn(name = "ai_p_id", referencedColumnName = "p_id", insertable = false, updatable = false)
+    @JoinColumn(name = "ai_p_id", referencedColumnName = "p_id")
     private PersonEntity personByAiPId;
 
     public int getAiId() {
