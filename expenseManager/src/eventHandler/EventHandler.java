@@ -15,7 +15,7 @@ public class EventHandler implements IEventHandler {
      * Creates empty client handler
      */
     public EventHandler() {
-        this.mEvents = new ArrayList<Event>();
+        this.mEvents = new ArrayList<>();
         this.mAccountBalance = 0;
     }
 
@@ -57,6 +57,10 @@ public class EventHandler implements IEventHandler {
         this.mAccountBalance = temp;
     }
 
+    /**
+     * Adds event to events array
+     * @param event event to add
+     */
     public void addEvent(Event event) {
         this.mEvents.add(event);
         calculateBalance();

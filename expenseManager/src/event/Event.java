@@ -1,9 +1,11 @@
 package event;
 
+import exceptions.AmountTypeException;
+
 /**
  * This class is used to create and expense or income.
  */
-public class Event implements IEvent{
+public class Event implements IEvent {
     private EventType mType;
     private double mAmount;
     private String mDescription;
@@ -12,15 +14,16 @@ public class Event implements IEvent{
 
     /**
      * Creates event
-     * @param type event type
-     * @param amount amount of income or expense
+     * @param type        event type
+     * @param amount      amount of income or expense
      * @param description description of the event
-     * @param category category of the event
-     * @param date date of the event
+     * @param category    category of the event
+     * @param date        date of the event
+     * @throws AmountTypeException if the amount doesn't match the type
      */
-    public Event(EventType type, double amount, String description, String category, String date) {
+    public Event(EventType type, double amount, String description, String category, String date) throws AmountTypeException {
         this.mType = type;
-        this.mAmount = amount;
+        setAmount(amount);
         this.mDescription = description;
         this.mCategory = category;
         this.mDate = date;
@@ -40,10 +43,7 @@ public class Event implements IEvent{
      */
     @Override
     public double getAmount() {
-        return switch (this.mType) {
-            case INCOME -> this.mAmount;
-            case EXPENSE -> -this.mAmount;
-        };
+        return this.mAmount;
     }
 
     /**
@@ -80,10 +80,26 @@ public class Event implements IEvent{
 
     /**
      * @param amount amount of event
+     * @throws AmountTypeException if the amount doesn't match the type
      */
     @Override
-    public void setAmount(double amount) {
-        this.mAmount = amount;
+    public void setAmount(double amount) throws AmountTypeException {
+        switch (this.mType) {
+            case INCOME:
+                if (amount > 0)
+                    this.mAmount = amount;
+                else
+                    throw new AmountTypeException();
+                break;
+            case EXPENSE:
+                if (amount < 0)
+                    this.mAmount = amount;
+                else
+                    throw new AmountTypeException();
+                break;
+            default:
+                this.mAmount = amount;
+        }
     }
 
     /**
