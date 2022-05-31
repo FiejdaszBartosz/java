@@ -2,8 +2,8 @@ package event;
 
 public interface IEvent {
     enum EventType {
-        income,
-        expense
+        INCOME,
+        EXPENSE
     }
 
     EventType getEventType();
@@ -11,4 +11,9 @@ public interface IEvent {
     String getDescription();
     String getCategory();
     String getDate();
+    void setEventType(EventType eventType);
+    void setAmount(double amount);
+    void setDescription(String description);
+    void setCategory(String category);
+    void setDate(String date);
 }

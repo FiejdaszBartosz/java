@@ -40,7 +40,10 @@ public class Event implements IEvent{
      */
     @Override
     public double getAmount() {
-        return this.mAmount;
+        return switch (this.mType) {
+            case INCOME -> this.mAmount;
+            case EXPENSE -> -this.mAmount;
+        };
     }
 
     /**
@@ -67,5 +70,44 @@ public class Event implements IEvent{
         return this.mDate;
     }
 
+    /**
+     * @param eventType is it income or expense
+     */
+    @Override
+    public void setEventType(EventType eventType) {
+        this.mType = eventType;
+    }
+
+    /**
+     * @param amount amount of event
+     */
+    @Override
+    public void setAmount(double amount) {
+        this.mAmount = amount;
+    }
+
+    /**
+     * @param description description of event
+     */
+    @Override
+    public void setDescription(String description) {
+        this.mDescription = description;
+    }
+
+    /**
+     * @param category category of the event
+     */
+    @Override
+    public void setCategory(String category) {
+        this.mCategory = category;
+    }
+
+    /**
+     * @param date date of the event
+     */
+    @Override
+    public void setDate(String date) {
+        this.mDate = date;
+    }
 
 }
