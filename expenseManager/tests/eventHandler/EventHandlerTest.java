@@ -111,8 +111,8 @@ class EventHandlerTest {
             beforeSave.addEvent(firstEvent);
             beforeSave.addEvent(secondEvent);
 
-            beforeSave.saveEventsToFile();
-            afterLoad.loadEventsFromFile();
+            beforeSave.saveEventsToFile("SaveAndLoadFromFileTest.ser");
+            afterLoad.loadEventsFromFile("SaveAndLoadFromFileTest.ser");
 
             assertEquals(beforeSave.getAccountBalance(), afterLoad.getAccountBalance());
         } catch (AmountTypeException e) {

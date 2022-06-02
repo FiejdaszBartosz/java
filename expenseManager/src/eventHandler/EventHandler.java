@@ -1,6 +1,7 @@
 package eventHandler;
 
 import event.Event;
+import exceptions.EventsArrayIsEmptyException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class EventHandler implements IEventHandler {
     private ArrayList<Event> mEvents;
     private double mAccountBalance;
+    private final String mFileName = "database.ser";
 
     /**
      * Creates empty client handler
@@ -69,14 +71,40 @@ public class EventHandler implements IEventHandler {
 
     /**
      * Saves events array to file
+     * @param fileName file name to save
+     */
+    @Override
+    public void saveEventsToFile(String fileName) {
+        try {
+            FileOutputStream fOut = new FileOutputStream(fileName);
+            ObjectOutputStream oOut = new ObjectOutputStream(fOut);
+
+            if (!mEvents.isEmpty())
+                oOut.writeObject(mEvents);
+            else
+                throw new EventsArrayIsEmptyException();
+
+            oOut.flush();
+            oOut.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Saves events array to file. Default file name.
      */
     @Override
     public void saveEventsToFile() {
         try {
-            FileOutputStream fOut = new FileOutputStream("/Users/bartoszfiejdasz/studia/semestr4/java/expenseManager/test.ser");
+            FileOutputStream fOut = new FileOutputStream(this.mFileName);
             ObjectOutputStream oOut = new ObjectOutputStream(fOut);
 
-            oOut.writeObject(mEvents);
+            if (!mEvents.isEmpty())
+                oOut.writeObject(mEvents);
+            else
+                throw new EventsArrayIsEmptyException();
+
             oOut.flush();
             oOut.close();
         } catch (Exception e) {
@@ -86,11 +114,31 @@ public class EventHandler implements IEventHandler {
 
     /**
      * Loads events list from file
+     * @param fileName file name to load
      */
     @Override
+    @SuppressWarnings("unchecked")
+    public void loadEventsFromFile(String fileName) {
+        try {
+            FileInputStream fIn = new FileInputStream(fileName);
+            ObjectInputStream oIn = new ObjectInputStream(fIn);
+
+            setEventsArray((ArrayList<Event>) oIn.readObject());
+
+            oIn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Loads events list from file. Default file name.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
     public void loadEventsFromFile() {
         try {
-            FileInputStream fIn = new FileInputStream("/Users/bartoszfiejdasz/studia/semestr4/java/expenseManager/test.ser");
+            FileInputStream fIn = new FileInputStream(this.mFileName);
             ObjectInputStream oIn = new ObjectInputStream(fIn);
 
             setEventsArray((ArrayList<Event>) oIn.readObject());

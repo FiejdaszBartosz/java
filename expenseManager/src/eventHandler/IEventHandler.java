@@ -9,6 +9,8 @@ public interface IEventHandler {
     double getAccountBalance();
     void setEventsArray(ArrayList<Event> events);
     void addEvent(Event event);
+    void saveEventsToFile(String fileName);
     void saveEventsToFile();
+    void loadEventsFromFile(String fileName);
     void loadEventsFromFile();
 }
