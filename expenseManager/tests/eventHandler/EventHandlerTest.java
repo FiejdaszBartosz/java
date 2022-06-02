@@ -88,4 +88,35 @@ class EventHandlerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    void testSaveAndLoadFromFile() {
+        EventHandler beforeSave = new EventHandler();
+        EventHandler afterLoad = new EventHandler();
+
+        try {
+            Event firstEvent = new Event(
+                    IEvent.EventType.INCOME,
+                    200,
+                    "test",
+                    "salary",
+                    "2022-05-31");
+            Event secondEvent = new Event(
+                    IEvent.EventType.EXPENSE,
+                    -100,
+                    "test",
+                    "salary",
+                    "2022-06-31");
+
+            beforeSave.addEvent(firstEvent);
+            beforeSave.addEvent(secondEvent);
+
+            beforeSave.saveEventsToFile();
+            afterLoad.loadEventsFromFile();
+
+            assertEquals(beforeSave.getAccountBalance(), afterLoad.getAccountBalance());
+        } catch (AmountTypeException e) {
+            fail(e.getMessage());
+        }
+    }
 }

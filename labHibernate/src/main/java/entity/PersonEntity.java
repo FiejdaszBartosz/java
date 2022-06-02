@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "person", schema = "labhibernate")
-@NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a where a.town = ?1 and a.personByAiPId = p")
 
+@Table(name = "person", schema = "labhibernate")
+@NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.town=?1 AND a.personByAiPId = p")
 public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

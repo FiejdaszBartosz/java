@@ -2,7 +2,11 @@ package event;
 
 import exceptions.AmountTypeException;
 
-public interface IEvent {
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public interface IEvent extends Serializable {
     enum EventType {
         INCOME,
         EXPENSE

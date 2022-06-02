@@ -27,9 +27,6 @@ public class AddressInfoEntity {
     @Basic
     @Column(name = "country")
     private String country;
-    @ManyToOne
-    @JoinColumn(name = "ai_p_id", referencedColumnName = "p_id")
-    private PersonEntity personByAiPId;
 
     public int getAiId() {
         return aiId;
@@ -115,13 +112,5 @@ public class AddressInfoEntity {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
         return result;
-    }
-
-    public PersonEntity getPersonByAiPId() {
-        return personByAiPId;
-    }
-
-    public void setPersonByAiPId(PersonEntity personByAiPId) {
-        this.personByAiPId = personByAiPId;
     }
 }

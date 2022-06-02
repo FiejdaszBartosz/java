@@ -2,6 +2,7 @@ package eventHandler;
 
 import event.Event;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -64,5 +65,39 @@ public class EventHandler implements IEventHandler {
     public void addEvent(Event event) {
         this.mEvents.add(event);
         calculateBalance();
+    }
+
+    /**
+     * Saves events array to file
+     */
+    @Override
+    public void saveEventsToFile() {
+        try {
+            FileOutputStream fOut = new FileOutputStream("/Users/bartoszfiejdasz/studia/semestr4/java/expenseManager/test.ser");
+            ObjectOutputStream oOut = new ObjectOutputStream(fOut);
+
+            oOut.writeObject(mEvents);
+            oOut.flush();
+            oOut.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Loads events list from file
+     */
+    @Override
+    public void loadEventsFromFile() {
+        try {
+            FileInputStream fIn = new FileInputStream("/Users/bartoszfiejdasz/studia/semestr4/java/expenseManager/test.ser");
+            ObjectInputStream oIn = new ObjectInputStream(fIn);
+
+            setEventsArray((ArrayList<Event>) oIn.readObject());
+
+            oIn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

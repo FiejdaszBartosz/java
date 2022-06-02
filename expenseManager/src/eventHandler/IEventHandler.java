@@ -9,4 +9,6 @@ public interface IEventHandler {
     double getAccountBalance();
     void setEventsArray(ArrayList<Event> events);
     void addEvent(Event event);
+    void saveEventsToFile();
+    void loadEventsFromFile();
 }

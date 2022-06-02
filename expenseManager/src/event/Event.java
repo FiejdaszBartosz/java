@@ -2,6 +2,9 @@ package event;
 
 import exceptions.AmountTypeException;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
  * This class is used to create and expense or income.
  */
@@ -125,5 +128,4 @@ public class Event implements IEvent {
     public void setDate(String date) {
         this.mDate = date;
     }
-
 }
