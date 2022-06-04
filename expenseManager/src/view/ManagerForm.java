@@ -6,6 +6,8 @@ import eventHandler.EventHandler;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ManagerForm {
     private JPanel mainPanel;
@@ -37,13 +39,6 @@ public class ManagerForm {
                 mEventForm = new EventForm(managerForm);
             }
         });
-        this.mEventHandler = new EventHandler();
-
-        mMainFrame = new JFrame("Manager");
-        mMainFrame.setContentPane(mainPanel);
-        mMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mMainFrame.pack();
-        mMainFrame.setVisible(true);
         showIncomeButton.addActionListener(new ActionListener() {
             /**
              * @param e the event to be processed
@@ -62,10 +57,36 @@ public class ManagerForm {
                 mResultForm = new ResultForm(mEventHandler, "EXPENSE");
             }
         });
+
+
+
+        this.mEventHandler = new EventHandler();
+        this.mEventHandler.loadEventsFromFile();
+        setLabels();
+
+        mMainFrame = new JFrame("Manager");
+        mMainFrame.setContentPane(mainPanel);
+        mMainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        mMainFrame.pack();
+
+        mMainFrame.addWindowListener( new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                mEventHandler.saveEventsToFile();
+                mMainFrame.dispose();
+            }
+        });
+
+        mMainFrame.setVisible(true);
     }
 
     public void addEvent(Event event) {
         this.mEventHandler.addEvent(event);
+        setLabels();
+    }
+
+    private void setLabels() {
         this.expenseAmountLabel.setText(String.valueOf(mEventHandler.calculateExpense()));
         this.incomeAmountLabel.setText(String.valueOf(mEventHandler.calculateIncome()));
         this.amountBalance.setText(String.valueOf(mEventHandler.getAccountBalance()));

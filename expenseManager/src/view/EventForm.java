@@ -57,7 +57,7 @@ public class EventForm {
         });
         mMainFrame = new JFrame("Add Event");
         mMainFrame.setContentPane(mainPanel);
-        mMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mMainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         mMainFrame.pack();
         mMainFrame.setVisible(true);
