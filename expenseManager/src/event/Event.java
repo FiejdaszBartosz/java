@@ -98,7 +98,7 @@ public class Event implements IEvent {
                 if (amount < 0)
                     this.mAmount = amount;
                 else
-                    throw new AmountTypeException();
+                    this.mAmount = -amount;
                 break;
             default:
                 this.mAmount = amount;

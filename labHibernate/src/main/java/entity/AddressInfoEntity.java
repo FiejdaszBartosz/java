@@ -9,9 +9,9 @@ public class AddressInfoEntity {
     @Id
     @Column(name = "ai_id")
     private int aiId;
-    @Basic
-    @Column(name = "ai_p_id")
-    private Integer aiPId;
+    //@Basic
+    //@Column(name = "ai_p_id")
+    //private Integer aiPId;
     @Basic
     @Column(name = "street")
     private String street;
@@ -28,20 +28,16 @@ public class AddressInfoEntity {
     @Column(name = "country")
     private String country;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ai_p_id", referencedColumnName = "p_id")
+    private PersonEntity personByAiPId;
+
     public int getAiId() {
         return aiId;
     }
 
     public void setAiId(int aiId) {
         this.aiId = aiId;
-    }
-
-    public Integer getAiPId() {
-        return aiPId;
-    }
-
-    public void setAiPId(Integer aiPId) {
-        this.aiPId = aiPId;
     }
 
     public String getStreet() {
@@ -92,7 +88,7 @@ public class AddressInfoEntity {
         AddressInfoEntity that = (AddressInfoEntity) o;
 
         if (aiId != that.aiId) return false;
-        if (aiPId != null ? !aiPId.equals(that.aiPId) : that.aiPId != null) return false;
+        //if (aiPId != null ? !aiPId.equals(that.aiPId) : that.aiPId != null) return false;
         if (street != null ? !street.equals(that.street) : that.street != null) return false;
         if (houseNumber != null ? !houseNumber.equals(that.houseNumber) : that.houseNumber != null) return false;
         if (town != null ? !town.equals(that.town) : that.town != null) return false;
@@ -105,12 +101,20 @@ public class AddressInfoEntity {
     @Override
     public int hashCode() {
         int result = aiId;
-        result = 31 * result + (aiPId != null ? aiPId.hashCode() : 0);
+        //result = 31 * result + (aiPId != null ? aiPId.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
         result = 31 * result + (town != null ? town.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
         return result;
+    }
+
+    public void setPersonByAiPId(PersonEntity personByAiPId) {
+        this.personByAiPId = personByAiPId;
+    }
+
+    public String addressToString() {
+        return getStreet() + " " + getHouseNumber() + " " + getTown() + " " + getState() + " " + getCountry();
     }
 }

@@ -1,6 +1,7 @@
 package eventHandler;
 
 import event.Event;
+import event.IEvent;
 import exceptions.EventsArrayIsEmptyException;
 
 import java.io.*;
@@ -58,6 +59,32 @@ public class EventHandler implements IEventHandler {
             temp += i.getAmount();
 
         this.mAccountBalance = temp;
+    }
+
+    /**
+     * Calculate income
+     */
+    public double calculateIncome() {
+        double temp = 0;
+
+        for(Event i : mEvents)
+            if (i.getEventType() == IEvent.EventType.INCOME)
+                temp += i.getAmount();
+
+        return temp;
+    }
+
+    /**
+     * Calculate expense
+     */
+    public double calculateExpense() {
+        double temp = 0;
+
+        for(Event i : mEvents)
+            if (i.getEventType() == IEvent.EventType.EXPENSE)
+                temp += i.getAmount();
+
+        return temp;
     }
 
     /**

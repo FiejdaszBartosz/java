@@ -6,7 +6,17 @@ import java.util.Collection;
 @Entity
 
 @Table(name = "person", schema = "labhibernate")
-@NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.town=?1 AND a.personByAiPId = p")
+
+@NamedQuery(name = "PersonEntity.ById", query = "SELECT p FROM PersonEntity p where p.pId = ?1")
+//@NamedQuery(name = "AddressInfoEntity.ById", query = "SELECT p FROM AddressInfoEntity p where p.aiPId = ?1")
+@NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.town = ?1 AND a.personByAiPId = p")
+@NamedQuery(name = "PersonEntity.ByState", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.state = ?1 AND a.personByAiPId = p")
+@NamedQuery(name = "PersonEntity.ByCountry", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.country = ?1 AND a.personByAiPId = p")
+@NamedQuery(name = "PersonEntity.ByName", query = "SELECT p FROM PersonEntity p where p.pName = ?1")
+@NamedQuery(name = "PersonEntity.BySurname", query = "SELECT p FROM PersonEntity p where p.pSurname = ?1")
+@NamedQuery(name = "PersonEntity.ByEmail", query = "SELECT p FROM PersonEntity p where p.pEmail = ?1")
+@NamedQuery(name = "DeleteAddressRecord", query = "Delete from AddressInfoEntity a where a.aiId = ?1")
+
 public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -86,5 +96,9 @@ public class PersonEntity {
 
     public void setAddressInfosByPId(Collection<AddressInfoEntity> addressInfosByPId) {
         this.addressInfosByPId = addressInfosByPId;
+    }
+
+    public String personEntityToString() {
+        return getpName() + " " + getpSurname() + " " + getpEmail() + "\n";
     }
 }

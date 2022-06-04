@@ -2,6 +2,7 @@ package view;
 
 import event.Event;
 import event.IEvent;
+import eventHandler.EventHandler;
 import exceptions.AmountTypeException;
 
 import javax.swing.*;
@@ -31,9 +32,13 @@ public class EventForm {
 
     private Event mTempEvent;
 
+    private ManagerForm mManagerForm;
+
     private boolean mCheckInputs;
 
-    public EventForm() {
+    private static JFrame mMainFrame;
+
+    public EventForm(ManagerForm managerForm) {
         this.typeComboBox.setModel(new DefaultComboBoxModel<>(IEvent.EventType.values()));
         this.mCheckInputs = true;
 
@@ -43,18 +48,19 @@ public class EventForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                parseEvent();
+                Event temp = parseEvent();
+                if (mCheckInputs) {
+                    managerForm.addEvent(temp);
+                }
+                mMainFrame.dispose();
             }
         });
-    }
+        mMainFrame = new JFrame("Add Event");
+        mMainFrame.setContentPane(mainPanel);
+        mMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame("Add Event");
-        EventForm mForm = new EventForm();
-        mainFrame.setContentPane(mForm.mainPanel);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.pack();
-        mainFrame.setVisible(true);
+        mMainFrame.pack();
+        mMainFrame.setVisible(true);
     }
 
     /**
