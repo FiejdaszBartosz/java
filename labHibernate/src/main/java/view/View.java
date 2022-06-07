@@ -14,7 +14,7 @@ public class View {
     private EntityTransaction mEntityTransaction;
     private Session mSession;
 
-    TypedQuery<PersonEntity> personByTown, personByName, personBySurname, personByEmail, personByState, personByCountry, personById;
+    TypedQuery<PersonEntity> personByName, personByEmail, personById;
 
     public View() {
         this.mScanner = new Scanner(System.in);

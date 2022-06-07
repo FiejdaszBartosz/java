@@ -9,9 +9,6 @@ public class AddressInfoEntity {
     @Id
     @Column(name = "ai_id")
     private int aiId;
-    //@Basic
-    //@Column(name = "ai_p_id")
-    //private Integer aiPId;
     @Basic
     @Column(name = "street")
     private String street;
@@ -101,7 +98,6 @@ public class AddressInfoEntity {
     @Override
     public int hashCode() {
         int result = aiId;
-        //result = 31 * result + (aiPId != null ? aiPId.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
         result = 31 * result + (town != null ? town.hashCode() : 0);

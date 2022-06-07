@@ -51,8 +51,11 @@ public class EventForm {
                 Event temp = parseEvent();
                 if (mCheckInputs) {
                     managerForm.addEvent(temp);
+                    mMainFrame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(mMainFrame, "Wrong input");
                 }
-                mMainFrame.dispose();
+
             }
         });
         mMainFrame = new JFrame("Add Event");
@@ -85,7 +88,6 @@ public class EventForm {
 
     /**
      * Gets input from amountTextField. Marks if input is empty String or incorrect type.
-     *
      * @return amount from amountTextField
      */
     private double parseAmount() {
@@ -122,7 +124,6 @@ public class EventForm {
 
     /**
      * Gets input from categoryTextField. Marks if input is empty String.
-     *
      * @return description from categoryTextField
      */
     private String parseCategory() {
@@ -137,7 +138,6 @@ public class EventForm {
 
     /**
      * Gets input from categoryTextField. Marks if input is empty String.
-     *
      * @return description from categoryTextField
      */
     private String parseDate() {

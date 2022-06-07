@@ -2,9 +2,6 @@ package event;
 
 import exceptions.AmountTypeException;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 /**
  * This class is used to create and expense or income.
  */
@@ -17,6 +14,7 @@ public class Event implements IEvent {
 
     /**
      * Creates event
+     *
      * @param type        event type
      * @param amount      amount of income or expense
      * @param description description of the event

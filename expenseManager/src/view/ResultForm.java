@@ -31,6 +31,9 @@ public class ResultForm {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Creates table
+     */
     private void createUIComponents() {
         mainTable = new JTable();
         String[] headers = new String[]{"Amount", "Description", "Category", "Date"};

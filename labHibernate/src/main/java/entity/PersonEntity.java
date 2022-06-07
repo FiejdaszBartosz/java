@@ -8,7 +8,6 @@ import java.util.Collection;
 @Table(name = "person", schema = "labhibernate")
 
 @NamedQuery(name = "PersonEntity.ById", query = "SELECT p FROM PersonEntity p where p.pId = ?1")
-//@NamedQuery(name = "AddressInfoEntity.ById", query = "SELECT p FROM AddressInfoEntity p where p.aiPId = ?1")
 @NamedQuery(name = "PersonEntity.ByTown", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.town = ?1 AND a.personByAiPId = p")
 @NamedQuery(name = "PersonEntity.ByState", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.state = ?1 AND a.personByAiPId = p")
 @NamedQuery(name = "PersonEntity.ByCountry", query = "SELECT p FROM PersonEntity p, AddressInfoEntity a WHERE a.country = ?1 AND a.personByAiPId = p")
